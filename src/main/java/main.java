@@ -98,5 +98,6 @@ public class main {
         System.out.println("Dein Roboter befindet sich zu Beginn in dem Feld (z|s). Viel Spaß beim Spielen!");
 
 
+
     }
 }
