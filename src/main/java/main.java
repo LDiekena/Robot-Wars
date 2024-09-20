@@ -1,5 +1,6 @@
 public class main {
     public static void main(String[] args) {
+        //Ausgabe Willkomensintro für den Spieler
         System.out.println("           ___");
         System.out.println("          |_|_|");
         System.out.println("          |_|_|              _____");
