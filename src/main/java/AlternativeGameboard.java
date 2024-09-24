@@ -14,6 +14,7 @@ public class AlternativeGameboard {
         for (int i = 0; i < spielfeld.length; i++) {
             for (int j = 0; j < spielfeld[i].length - 1; j++) {
                 if (i == posZeile && j == posSpalte) {
+                    //TODO: Einbau Symbole je nach Avatar
                     System.out.print(" [X]");
                 } else {
                     System.out.print(" [ ]");

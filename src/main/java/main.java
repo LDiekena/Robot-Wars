@@ -2,66 +2,71 @@ import java.util.Scanner;
 
 public class main {
     public static void main(String[] args) {
-        //Ausgabe Willkomensintro für den Spieler
-        System.out.println("           ___");
-        System.out.println("          |_|_|");
-        System.out.println("          |_|_|              _____");
-        System.out.println("          |_|_|     ____    |*_*_*|");
-        System.out.println(" _______   _\\__\\___/ __ \\____|_|_   _______");
-        System.out.println("/ ____  |=|      \\  <_+>  /      |=|  ____ \\");
-        System.out.println("~|    |\\|=|======\\\\______//======|=|/|    |~");
-        System.out.println(" |_   |    \\      |      |      /    |    |");
-        System.out.println("  \\==-|     \\     | Robot|     /     |----|~~/");
-        System.out.println("  |   |      |    | Wars |    |      |____/~/");
-        System.out.println("  |   |       \\____\\____/____/      /    / /");
-        System.out.println("  |   |         {----------}       /____/ /");
-        System.out.println("  |___|        /~~~~~~~~~~~~\\     |_/~|_|/");
-        System.out.println("  \\_/        |/~~~~~||~~~~~\\|     /__|\\");
-        System.out.println("   | |         |    ||||    |     (/|| \\)");
-        System.out.println("   | |        /     |  |     \\       \\\\");
-        System.out.println("   |_|        |     |  |     |");
-        System.out.println("              |_____|  |_____|");
-        System.out.println("              (_____)  (_____)");
-        System.out.println("              |     |  |     |");
-        System.out.println("              |     |  |     |");
-        System.out.println("              |/~~~\\|  |/~~~\\|");
-        System.out.println("              /|___|\\  /|___|\\");
-        System.out.println("             <_______><_______>");
+        //Sammlung ASCII Arts
+        String wilkommenASCII = "           ___\n" +
+                                "          |_|_|\n" +
+                                "          |_|_|              _____\n" +
+                                "          |_|_|     ____    |*_*_*|\n" +
+                                " _______   _\\__\\___/ __ \\____|_|_   _______\n" +
+                                "/ ____  |=|      \\  <_+>  /      |=|  ____ \\\n" +
+                                "~|    |\\|=|======\\\\______//======|=|/|    |~\n" +
+                                " |_   |    \\      |      |      /    |    |\n" +
+                                "  \\==-|     \\     | Robot|     /     |----|~~/\n" +
+                                "  |   |      |    | Wars |    |      |____/~/\n" +
+                                "  |   |       \\____\\____/____/      /    / /\n" +
+                                "  |   |         {----------}       /____/ /\n" +
+                                "  |___|        /~~~~~~~~~~~~\\     |_/~|_|/\n" +
+                                "   \\_/        |/~~~~~||~~~~~\\|     /__|\\\n" +
+                                "   | |         |    ||||    |     (/|| \\)\n" +
+                                "   | |        /     |  |     \\       \\\\\n" +
+                                "   |_|        |     |  |     |\n" +
+                                "              |_____|  |_____|\n" +
+                                "              (_____)  (_____)\n" +
+                                "              |     |  |     |\n" +
+                                "              |     |  |     |\n" +
+                                "              |/~~~\\|  |/~~~\\|\n" +
+                                "              /|___|\\  /|___|\\\n" +
+                                "             <_______><_______>\n";
 
-        System.out.println("Herzlich willkommen bei Robot Wars!");
+        String robot1 = "   __,_,\n" +
+                "  [_|_/\n" +
+                "   //\n" +
+                " _//    __\n" +
+                "(_|)   |@@|\n" +
+                " \\ \\__ \\--/ __\n"+
+                "  \\o__|----|  |   __\n" +
+                "      \\ }{ /\\ )_ / _\\\n" +
+                "      /\\__/\\ \\__O (__\n" +
+                "     (--/\\--)    \\__/\n" +
+                "     _)(  )(_\n" +
+                "    `---''---`\n";
+
+        String robot2 = "      \\_/     \n" +
+                        "     (* *)     \n" +
+                        "    __)#(__    \n" +
+                        "   ( )...( )(_)\n" +
+                        "   || |_| ||// \n" +
+                        ">==() | | ()/  \n" +
+                        "    _(___)_    \n" +
+                        "   [-]   [-]   \n";
+
+
+        //Ausgabe Willkomensintro für den Spieler
+        System.out.println("      Herzlich willkommen bei Robot Wars!");
+        System.out.println(wilkommenASCII);
+
+
         //Eingabeaufforderung Name des Spielers
         Scanner sc = new Scanner(System.in);
-        System.out.println("Bitte gebe deinen Namen ein: ");
+        System.out.println("Bitte gebe deinen Namen für das Spiel ein: ");
         String name = sc.nextLine();
 
         //Anzeige der Auswahl an wählbaren Avatars
         System.out.println("Hallo " + name + "! Bitte wähle deinen Roboter zwischen den beiden folgenden" +
-                " Möglichkeiten aus.");
+                " Möglichkeiten aus:");
 
-        System.out.println("Roboter Nr. 1");
-        System.out.println("   __,_,");
-        System.out.println("  [_|_/ ");
-        System.out.println("   //");
-        System.out.println(" _//    __");
-        System.out.println("(_|)   |@@|");
-        System.out.println(" \\ \\__ \\--/ __");
-        System.out.println("  \\o__|----|  |   __");
-        System.out.println("      \\ }{ /\\ )_ / _\\");
-        System.out.println("      /\\__/\\ \\__O (__");
-        System.out.println("     (--/\\--)    \\__/");
-        System.out.println("     _)(  )(_");
-        System.out.println("    `---''---`");
-        System.out.println();
-
-        System.out.println( "Roboter Nr. 2" );
-        System.out.println("      \\_/     ");
-        System.out.println("     (* *)     ");
-        System.out.println("    __)#(__    ");
-        System.out.println("   ( )...( )(_)");
-        System.out.println("   || |_| ||// ");
-        System.out.println(">==() | | ()/  ");
-        System.out.println("    _(___)_    ");
-        System.out.println("   [-]   [-]   ");
+        System.out.println("Roboter Nr. 1\n" + robot1);
+        System.out.println("Roboter Nr. 2\n" + robot2);
 
         //Avatarauswahl des Spielers
         System.out.println("Treffe nun deine Entscheidung in dem du 1 oder 2 eingibst.");
@@ -74,8 +79,21 @@ public class main {
             avatar = sc.nextInt();
         }
 
-        //Auswahlbestätigung
-        System.out.println("Du hast den Roboter Nr. " + avatar + " gewählt.");
+        //Auswahlbestätigung und Symbolzuweisung
+        char avatar1 = '§';
+        char avatar2 = '∆';
+        char gewaehlterAvatar = ' ';
+
+        if (avatar == 1) {
+            gewaehlterAvatar = avatar1;
+        } else if (avatar == 2) {
+            gewaehlterAvatar = avatar2;
+        } else {
+            System.out.println("Fehler beim zuweisen des Avatars.");
+        }
+
+        System.out.println("Du hast den Roboter Nr. " + avatar + " gewählt. Auf dem Spielfeld wird dieser durch das Symbol " +
+                gewaehlterAvatar + " repräsentiert.\n");
         System.out.println("Das Spielfeld wird für das Spiel vorbereitet.");
 
         //Spielfeld Attribute
@@ -96,8 +114,5 @@ public class main {
 
         //Position des Roboters bei Start
         System.out.println("Dein Roboter befindet sich zu Beginn in dem Feld (z|s). Viel Spaß beim Spielen!");
-
-
-
     }
 }
