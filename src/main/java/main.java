@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class main {
@@ -96,23 +97,56 @@ public class main {
                 gewaehlterAvatar + " repräsentiert.\n");
         System.out.println("Das Spielfeld wird für das Spiel vorbereitet.");
 
-        //Spielfeld Attribute
-        int boardLenght = 15;
-        int boardHight = 10;
-        int position;
+        //Spielfeld als Array in der Größe 10x15
+        String[][] spielfeld = new String[10][15];
+        Random r = new Random();
 
-        //Spielfeld
-        while (boardHight >= 1) {
-            int i = boardLenght;
-            while (i > 1) {
-                System.out.print(" [ ]");
-                i--;
+        //Randomizer für die Startposition
+        int posZeile = r.nextInt(9);
+        int posSpalte = r.nextInt(14);
+
+        //Spielfelderstellung leeres Spielfeld
+        for (int i = 0; i < spielfeld.length; i++) {
+            for (int j = 0; j < spielfeld[i].length; j++) {
+                spielfeld[i][j] = " [ ]";
             }
-            boardHight--;
-            System.out.println(" [ ]");
+        }
+
+        //Spielerposition auf Spielfeld einfügen, je nach Avatar anderes Symbol
+        for (int i = 0; i < spielfeld.length; i++) {
+            for (int j = 0; j < spielfeld[i].length - 1; j++) {
+                if (i == posZeile && j == posSpalte && gewaehlterAvatar == avatar1) {
+                    spielfeld[i][j] = " [" + avatar1 + "]";
+                } else if (i == posZeile && j == posSpalte && gewaehlterAvatar == avatar2) {
+                    spielfeld[i][j] = " [" + avatar2 + "]";
+                } else {
+                    spielfeld[i][j] = " [ ]";
+                }
+            }
+        }
+
+        //Print vom Spielfeld-Array
+        for (int i = 0; i < spielfeld.length; i++) {
+            for (int j = 0; j < spielfeld[i].length - 1; j++) {
+                System.out.print(spielfeld[i][j]);
+            }
+            System.out.println();
         }
 
         //Position des Roboters bei Start
         System.out.println("Dein Roboter befindet sich zu Beginn in dem Feld (z|s). Viel Spaß beim Spielen!");
+    }
+
+    //Methode für Random Number
+    public static int randomNumberRow (int number) {
+        Random r = new Random();
+        number = r.nextInt(9);
+        return number;
+    }
+
+    public static int randomNumberColumn (int number) {
+        Random r = new Random();
+        number = r.nextInt(14);
+        return number;
     }
 }
