@@ -3,6 +3,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+//In dieser Datei Teste ich nur verschiedene Sachen mit dem Spielfeld damit ich nichts in der main kaputt mache, bitte ignorieren
+
 public class AlternativeGameboard {
     public static void main(String[] args) {
 
@@ -81,14 +83,10 @@ public class AlternativeGameboard {
             sWasser--;
         }
 
-        //Zähler für die
+        //Zähler für die Barrieren
         int anzahlStein = 0;
         int anzahlPflanzen = 0;
         int anzahlWasser = 0;
-
-
-
-
 
         //Spielfelderstellung leeres Spielfeld
         for (int i = 0; i < spielfeld.length; i++) {
@@ -97,6 +95,7 @@ public class AlternativeGameboard {
             }
         }
 
+        /*
         //Array für Barrierenpositionen
         int[] barrierenColumn = new int[25];
         int[] barrierenRow = new int[25];
@@ -122,9 +121,9 @@ public class AlternativeGameboard {
 
         //Position des Spielers auf dem Spielfeld ausgeben
 
+         */
 
-
-    /*    for (int i = 0; i < spielfeld.length; i++) {
+        for (int i = 0; i < spielfeld.length; i++) {
             for (int j = 0; j < spielfeld[i].length - 1; j++) {
                 if (i == posZeile && j == posSpalte && gewaehlterAvatar == avatar1) {
                     spielfeld[i][j] = " [" + avatar1 + "]";
@@ -149,7 +148,7 @@ public class AlternativeGameboard {
                 }
             }
         }
-        */
+
 
         //Print vom Spielfeld-Array
         for (int i = 0; i < spielfeld.length; i++) {
@@ -165,7 +164,7 @@ public class AlternativeGameboard {
         System.out.println("Dein Roboter befindet sich auf Position (S:" + posSpalte + "|Z:" +  posZeile + ").");
     }
 
-    //TODO: Methode für Random Number
+    //Methode für Random Number
     public static int randomNumberRow (int number) {
         Random r = new Random();
         number = r.nextInt(9);
