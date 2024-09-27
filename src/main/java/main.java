@@ -1,9 +1,11 @@
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class main {
     public static void main(String[] args) {
-        //Sammlung ASCII Arts
+
+        //Beginn Sammlung ASCII Arts
         String wilkommenASCII = "           ___\n" +
                                 "          |_|_|\n" +
                                 "          |_|_|              _____\n" +
@@ -51,11 +53,13 @@ public class main {
                         "    _(___)_    \n" +
                         "   [-]   [-]   \n";
 
+        //Ende Sammlung ASCII Arts
+
+
 
         //Ausgabe Willkomensintro für den Spieler
         System.out.println("      Herzlich willkommen bei Robot Wars!");
         System.out.println(wilkommenASCII);
-
 
         //Eingabeaufforderung Name des Spielers
         Scanner sc = new Scanner(System.in);
@@ -80,7 +84,10 @@ public class main {
             avatar = sc.nextInt();
         }
 
-        //Auswahlbestätigung und Symbolzuweisung
+
+
+        // Beginn Part Spieler- & Gegnerinitialisierung
+        //Spielererstellung mit Zuweisung
         char avatar1 = '§';
         char avatar2 = '∆';
         char gewaehlterAvatar = ' ';
@@ -93,17 +100,29 @@ public class main {
             System.out.println("Fehler beim zuweisen des Avatars.");
         }
 
+        //Erstellung des Gegners
+        char gegner = '¥';
+        String botName = "Bot 1";
+
         System.out.println("Du hast den Roboter Nr. " + avatar + " gewählt. Auf dem Spielfeld wird dieser durch das Symbol " +
-                gewaehlterAvatar + " repräsentiert.\n");
+                gewaehlterAvatar + " repräsentiert. Dein Gegner wird mit dem Symbol" + gegner + " angezeigt\n");
+        //Ende Part Spieler- & Gegnerinitialisierung
+
+
+
+        //Beginn Part Spielfeldinitialisierung
         System.out.println("Das Spielfeld wird für das Spiel vorbereitet.");
 
         //Spielfeld als Array in der Größe 10x15
         String[][] spielfeld = new String[10][15];
-        Random r = new Random();
 
-        //Randomizer für die Startposition
-        int posZeile = r.nextInt(9);
-        int posSpalte = r.nextInt(14);
+        //Startposition des Spielers
+        int posZeile = randomNumberRow(9);
+        int posSpalte = randomNumberColumn(14);
+
+        //Startposition des Gegners
+        int posGegnerZeile = randomNumberColumn(9);
+        int posGegnerSpalte = randomNumberColumn(14);
 
         //Spielfelderstellung leeres Spielfeld
         for (int i = 0; i < spielfeld.length; i++) {
@@ -112,18 +131,26 @@ public class main {
             }
         }
 
-        //Spielerposition auf Spielfeld einfügen, je nach Avatar anderes Symbol
+        //Spielerposition und Gegnerposition auf Spielfeld einfügen, je nach Avatar anderes Symbol
         for (int i = 0; i < spielfeld.length; i++) {
             for (int j = 0; j < spielfeld[i].length - 1; j++) {
                 if (i == posZeile && j == posSpalte && gewaehlterAvatar == avatar1) {
                     spielfeld[i][j] = " [" + avatar1 + "]";
                 } else if (i == posZeile && j == posSpalte && gewaehlterAvatar == avatar2) {
                     spielfeld[i][j] = " [" + avatar2 + "]";
+                } else if (i == posGegnerZeile && j == posGegnerSpalte) {
+                    if (spielfeld[i][j].equals(" [ ]")) {
+                        spielfeld[i][j] = " [" + gegner + "]";
+                    } else {
+                        spielfeld[i+1][j+1] = " [" + gegner + "]";
+                        //TODO: Randomize neue Position
+                    }
                 } else {
-                    spielfeld[i][j] = " [ ]";
+
                 }
             }
         }
+
 
         //Print vom Spielfeld-Array
         for (int i = 0; i < spielfeld.length; i++) {
@@ -133,8 +160,16 @@ public class main {
             System.out.println();
         }
 
-        //Position des Roboters bei Start
-        System.out.println("Dein Roboter befindet sich zu Beginn in dem Feld (z|s). Viel Spaß beim Spielen!");
+        //Position des Spielers und Bots beim Start
+        System.out.println("Dein Roboter befindet sich zu Beginn in dem Feld (" + (posZeile+1) + "|" + (posSpalte+1) + ").");
+        System.out.println("Dein Gegner " + botName + " befindet sich zu Beginn in dem Feld (" + (posGegnerZeile+1) + "|"
+                + (posGegnerSpalte+1) + "). \nViel Spaß beim Spielen!");
+
+        //Ende Part Spielfeldinitialisierung
+
+
+
+
     }
 
     //Methode für Random Number
