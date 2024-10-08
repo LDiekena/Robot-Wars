@@ -24,7 +24,7 @@ public class main {
     public static String botName = "Bot 1";
 
     //Startposition des Spielers
-    public static int posZeile = randomNumberRow();
+    public static int posZeile = 0; //randomNumberRow();
     public static int posSpalte = randomNumberColumn();
 
     //Startposition des Gegners
@@ -147,7 +147,7 @@ public class main {
 
         //Spielerposition und Gegnerposition auf Spielfeld einfügen, je nach Avatar anderes Symbol
         for (int i = 0; i < spielfeld.length; i++) {
-            for (int j = 0; j < spielfeld[i].length - 1; j++) {
+            for (int j = 0; j < spielfeld[i].length; j++) {
                 if (i == posZeile && j == posSpalte && gewaehlterAvatar == avatar1) {
                     spielfeld[i][j] = " [" + avatar1 + "]";
                 } else if (i == posZeile && j == posSpalte && gewaehlterAvatar == avatar2) {
@@ -179,19 +179,15 @@ public class main {
         //Start Part Bewegung des Spielers
         //Bishergie Gewinnbedingung nur Erreichung des Gegnerfeldes
         while (posZeile != posGegnerZeile || posSpalte != posGegnerSpalte) {
-            if (spielerZug) {
+            while (spielerZug) {
                 System.out.println(name + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
                         ", möchtest du auf der aktuellen Position verweilen gebe eine 5 ein.");
                 zugEingabe = sc.next().charAt(0);
-
-                if (testZugGueltig(posZeile, posSpalte, zugEingabe)) { //TODO: Abfrage auf Gültigkeit Fehler finden
-                move(zugEingabe, gewaehlterAvatar);
-
+                if (testZugGueltig(posZeile, posSpalte, zugEingabe)) {
+                    move(zugEingabe, gewaehlterAvatar);
                 } else {
-                    System.out.println("Dieser Zug würde aus dem Spielfeld führen, bitte wähle eine andere Richtung: ");
-                    zugEingabe = sc.next().charAt(0);
+                    System.out.println("Dieser Zug würde aus dem Spielfeld führen, bitte versuche es erneut. ");
                 }
-
             }
 
             printSpielfeld();
@@ -217,7 +213,7 @@ public class main {
     //Methode zur Konsolenausgabe des Spielfeldes
     public static void printSpielfeld () {
         for (int i = 0; i < spielfeld.length; i++) {
-            for (int j = 0; j < spielfeld[i].length - 1; j++) {
+            for (int j = 0; j < spielfeld[i].length; j++) {
                 System.out.print(spielfeld[i][j]);
             }
             System.out.println();
@@ -240,12 +236,16 @@ public class main {
 
     //Methode zum Prüfen der Zuggültigkeit
     public static boolean testZugGueltig (int posZeile, int posSpalte, char zugEingabe) {
-        if (posZeile <= 9 && zugEingabe != '2' || posZeile >= 0 && zugEingabe != '8') {
-            return true;
-        } else if (posSpalte <= 13 && zugEingabe != '6' || posSpalte >= 0 && zugEingabe != '4') {
-            return true;
-        } else {
+        if (posZeile == 9 && zugEingabe == '2') {
             return false;
+        } else if (posZeile == 0 && zugEingabe == '8') {
+            return false;
+        } else if (posSpalte == 14 && zugEingabe == '6') {
+            return false;
+        } else if (posSpalte == 0 && zugEingabe == '4') {
+            return false;
+        } else {
+            return true;
         }
     }
 
