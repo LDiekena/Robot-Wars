@@ -7,9 +7,11 @@ public class main {
     public static String cyan = "\u001B[36m";
     public static String purple = "\u001B[35m";
     public static String red = "\u001B[31m";
+    public static String gelb = "\u001B[33m";
 
-    //Scanner
+    //Scanner und Randomizer
     public static Scanner sc = new Scanner(System.in);
+    public static Random r = new Random();
 
     //Spielfeld als Array in der Größe 10x15
     public static String[][] spielfeld = new String[10][15];
@@ -24,7 +26,7 @@ public class main {
     public static String botName = "Bot 1";
 
     //Startposition des Spielers
-    public static int posZeile = 0; //randomNumberRow();
+    public static int posZeile = randomNumberRow();
     public static int posSpalte = randomNumberColumn();
 
     //Startposition des Gegners
@@ -33,13 +35,14 @@ public class main {
 
     //Attribute für einen Zpielzug
     public static char zugEingabe = ' ';
+    public static char gegnerZugEingabe = ' ';
     public static boolean spielerZug = true;
     public static boolean gegnerZug = false;
 
     public static void main(String[] args) {
 
         //Beginn Sammlung ASCII Arts
-        String wilkommenASCII = "           ___\n" +
+        String wilkommenASCII = gelb + "           ___\n" +
                                 "          |_|_|\n" +
                                 "          |_|_|              _____\n" +
                                 "          |_|_|     ____    |*_*_*|\n" +
@@ -62,9 +65,9 @@ public class main {
                                 "              |     |  |     |\n" +
                                 "              |/~~~\\|  |/~~~\\|\n" +
                                 "              /|___|\\  /|___|\\\n" +
-                                "             <_______><_______>\n";
+                                "             <_______><_______>\n" + farbReset;
 
-        String robot1 = "   __,_,\n" +
+        String robot1 = cyan + "   __,_,\n" +
                 "  [_|_/\n" +
                 "   //\n" +
                 " _//    __\n" +
@@ -75,16 +78,16 @@ public class main {
                 "      /\\__/\\ \\__O (__\n" +
                 "     (--/\\--)    \\__/\n" +
                 "     _)(  )(_\n" +
-                "    `---''---`\n";
+                "    `---''---`\n" + farbReset;
 
-        String robot2 = "      \\_/     \n" +
+        String robot2 = purple + "      \\_/     \n" +
                         "     (* *)     \n" +
                         "    __)#(__    \n" +
                         "   ( )...( )(_)\n" +
                         "   || |_| ||// \n" +
                         ">==() | | ()/  \n" +
                         "    _(___)_    \n" +
-                        "   [-]   [-]   \n";
+                        "   [-]   [-]   \n" + farbReset;
 
         //Ende Sammlung ASCII Arts
 
@@ -165,49 +168,71 @@ public class main {
             }
         }
 
-        //Print vom Spielfeld-Array
+        //Print vom Startspielfeld
         printSpielfeld();
 
         //Position des Spielers und Bots beim Start schriftlich fü den Spieler
-        System.out.println("Dein Roboter befindet sich zu Beginn in dem Feld (" + (posZeile+1) + "|" + (posSpalte+1) + ").");
+        System.out.println("\nDein Roboter befindet sich zu Beginn in dem Feld (" + (posZeile+1) + "|" + (posSpalte+1) + ").");
         System.out.println("Dein Gegner " + botName + " befindet sich zu Beginn in dem Feld (" + (posGegnerZeile+1) + "|"
-                + (posGegnerSpalte+1) + "). \nViel Spaß beim Spielen!\n");
+                + (posGegnerSpalte+1) + "). \nViel Spaß beim Spielen!");
         //Ende Part Spielfeldinitialisierung
 
 
 
-        //Start Part Bewegung des Spielers
+        //Start Part Spiel
         //Bishergie Gewinnbedingung nur Erreichung des Gegnerfeldes
         while (posZeile != posGegnerZeile || posSpalte != posGegnerSpalte) {
+            //Spielerzug
             while (spielerZug) {
-                System.out.println(name + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
+                System.out.println("\n" + name + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
                         ", möchtest du auf der aktuellen Position verweilen gebe eine 5 ein.");
                 zugEingabe = sc.next().charAt(0);
                 if (testZugGueltig(posZeile, posSpalte, zugEingabe)) {
                     move(zugEingabe, gewaehlterAvatar);
+                    System.out.println("Dein Roboter befindet sich auf dem Feld (" + (posZeile+1) + "|" + (posSpalte+1) + ").");
                 } else {
                     System.out.println("Dieser Zug würde aus dem Spielfeld führen, bitte versuche es erneut. ");
                 }
             }
 
+            //Ausgabe des Spielerzuges
+            if (gewaehlterAvatar == avatar1) {
+                System.out.println(cyan + "\n Spielerzug \n" + farbReset);
+            } else if (gewaehlterAvatar == avatar2) {
+                System.out.println(purple + "\n Spielerzug \n" + farbReset);
+            }
             printSpielfeld();
 
-            //Gegnerzüge nicht implementiert
-            if (posZeile != posGegnerZeile || posSpalte != posGegnerSpalte) {
-                System.out.println("Der Gegner ist am Zug.");
-            }
+            //Spieler überschreibt den Gegner -> Spielersieg
+            if (posZeile == posGegnerZeile && posSpalte == posGegnerSpalte) {
+                System.out.println("\nGlückwunsch! Du hast deinen Gegner besiegt!");
+            } else {
+                //Gegnerzug
+                while (gegnerZug) {
+                    System.out.println("\nDer Gegner ist am Zug und macht seine Eingabe");
+                    gegnerZugEingabe = randomGegnerzug();
+                    System.out.println("Der Gegner hat die Eingabe " + gegnerZugEingabe + " gewählt");
+                    if (testZugGueltig(posGegnerZeile, posGegnerSpalte, gegnerZugEingabe)) {
+                        moveBot(gegnerZugEingabe);
+                        System.out.println("Der Gegner " + botName + " befindet sich auf dem Feld (" + (posGegnerZeile+1) + "|"
+                                + (posGegnerSpalte+1) + ").");
+                    } else {
+                        System.out.println("Die Eingabe des Gegners würde aus dem Spielfeld führen, der Gegner versucht es erneut.");
+                        gegnerZugEingabe = randomGegnerzug();
+                    }
+                }
 
-            //Provisorium bis Gegnerzüge implementiert
-            if (gegnerZug) {
-                spielerZug = true;
-                gegnerZug = false;
-            }
+                //Ausgabe des Gegnerzuges
+                System.out.println(red + "\n Gegnerzug \n" +farbReset);
+                printSpielfeld();
 
+                //Gegner überschreibt Spieler -> Gegnersieg
+                if (posGegnerZeile == posZeile && posGegnerSpalte == posSpalte) {
+                    System.out.println("Schade, du hast verloren!");
+                }
+            }
         }
-
-        System.out.println("\nGlückwunsch! Du hast deinen Gegner besiegt!");
-        //Ende Part Bewegung des Spielers
-
+        //Ende Part Spiel
     }
 
     //Methode zur Konsolenausgabe des Spielfeldes
@@ -222,16 +247,30 @@ public class main {
 
     //Methode für zufällige Zeile
     public static int randomNumberRow () {
-        Random r = new Random();
-        int number = r.nextInt(9);
-        return number;
+        return r.nextInt(9);
     }
 
     //Methode für zufällige Spalte
     public static int randomNumberColumn () {
-        Random r = new Random();
-        int number = r.nextInt(14);
-        return number;
+        return r.nextInt(14);
+    }
+
+    //Methode für zufälligen Gegnerzug
+    public static char randomGegnerzug () {
+        char gegnerzug = ' ';
+        int randomNumber = r.nextInt(5);
+        if (randomNumber == 0) {
+            gegnerzug = '2';
+        } else if (randomNumber == 1) {
+            gegnerzug = '4';
+        } else if (randomNumber == 2) {
+            gegnerzug = '5';
+        } else if (randomNumber == 3) {
+            gegnerzug = '6';
+        } else if (randomNumber == 4) {
+            gegnerzug = '8';
+        }
+        return gegnerzug;
     }
 
     //Methode zum Prüfen der Zuggültigkeit
@@ -280,7 +319,32 @@ public class main {
     }
 
     //Methode zum Bewegen des Bots
-    public static void moveBot (char zugEingabe, String gegner) {
-        //TODO: Implementierung Gegnerzug
+    public static void moveBot (char gegnerZugEingabe) {
+            spielfeld[posGegnerZeile][posGegnerSpalte] = " [ ]";
+        if (gegnerZugEingabe == '8') {
+            posGegnerZeile = posGegnerZeile - 1;
+            spielfeld[posGegnerZeile][posGegnerSpalte] = " [" + gegner + "]";
+            spielerZug = true;
+            gegnerZug = false;
+        } else if (gegnerZugEingabe == '4') {
+            posGegnerSpalte = posGegnerSpalte - 1;
+            spielfeld[posGegnerZeile][posGegnerSpalte] = " [" + gegner + "]";
+            spielerZug = true;
+            gegnerZug = false;
+        } else if (gegnerZugEingabe == '5') {
+            spielfeld[posGegnerZeile][posGegnerSpalte] = " [" + gegner + "]";
+            spielerZug = true;
+            gegnerZug = false;
+        } else if (gegnerZugEingabe == '6') {
+            posGegnerSpalte = posGegnerSpalte + 1;
+            spielfeld[posGegnerZeile][posGegnerSpalte] = " [" + gegner + "]";
+            spielerZug = true;
+            gegnerZug = false;
+        } else if (gegnerZugEingabe == '2') {
+            posGegnerZeile = posGegnerZeile + 1;
+            spielfeld[posGegnerZeile][posGegnerSpalte] = " [" + gegner + "]";
+            spielerZug = true;
+            gegnerZug = false;
+        }
     }
 }
