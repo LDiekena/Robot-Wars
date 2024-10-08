@@ -6,6 +6,12 @@ import java.util.Random;
 //In dieser Datei Teste ich nur verschiedene Sachen mit dem Spielfeld damit ich nichts in der main kaputt mache, bitte ignorieren
 
 public class AlternativeGameboard {
+    //Farbcodes
+    public static String farbReset = "\u001B[0m";
+    public static final String gruen = "\033[0;32m";   // GREEN
+    public static final String blau = "\033[0;34m";    // BLUE
+    public static final String lila = "\033[0;35m";  // PURPLE
+
     public static void main(String[] args) {
 
         //Array in der Größe 10x15
@@ -18,9 +24,9 @@ public class AlternativeGameboard {
 
         //Avatar
         int avatar = 2; //Für Testzwecke starr
-        char avatar1 = '§';
-        char avatar2 = '∆';
-        char gewaehlterAvatar = ' ';
+        String avatar1 = "§";
+        String avatar2 = lila + "∆" + farbReset;
+        String gewaehlterAvatar = " ";
 
         if (avatar == 1) {
             gewaehlterAvatar = avatar1;
@@ -48,8 +54,8 @@ public class AlternativeGameboard {
 
         //Symbole für Barrierenfeldern
         String steinBarriere = "▲";
-        String pflanzeBarriere = "♣";
-        String wasserBarriere = "≋";
+        String pflanzeBarriere = gruen + "♣" + farbReset;
+        String wasserBarriere = blau + "≋" + farbReset;
 
         //Random Positionen für die Barrieren TODO: Methode für alle Arten
         while (steinZeile.size() < zStein) {
