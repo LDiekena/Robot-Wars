@@ -5,6 +5,7 @@ public class Gameboard {
     static int cols;
     static String[][] gameboard;
 
+
     //Konstruktor
     public Gameboard(int rows, int cols) {
         Gameboard.rows = rows;

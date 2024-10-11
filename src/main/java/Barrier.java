@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Barrier {
 
     String type;
@@ -14,6 +16,11 @@ public class Barrier {
         this.posSpalte = posSpalte;
     }
 
+    //Methode für zufällige Zeile
+    public static int randomBarrierMax () {
+        Random r = new Random();
+        return r.nextInt(20);
+    }
 }
 
 
