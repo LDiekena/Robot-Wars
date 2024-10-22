@@ -4,9 +4,14 @@ public class main {
     //Objektgenerierung
     static ASCII_Arts asciiArts = new ASCII_Arts();
     static Gameboard board = new Gameboard(10, 15);
-    static Robot robot1 = new Robot("Roboter Nr. 1", ASCII_Arts.cyan + "§" + ASCII_Arts.farbReset, 100);
-    static Robot robot2 = new Robot("Roboter Nr. 1", ASCII_Arts.purple + "∆" + ASCII_Arts.farbReset, 100);
-    static Robot bot1 = new Robot("Bot 1", ASCII_Arts.red + "¥" + ASCII_Arts.farbReset, 100);
+    static Robot robot1 = new Robot("Roboter Nr. 1", ASCII_Arts.cyan + "§" + ASCII_Arts.farbReset,
+            10,1,1,1,1,1,1,1, 1);
+    static Robot robot2 = new Robot("Roboter Nr. 1", ASCII_Arts.purple + "∆" + ASCII_Arts.farbReset,
+            10,1,1,1,1,1,1,1, 1);
+
+    //KI Robot erstmal mit fester Skillverteilung, TODO: später eventuell noch random verteilt
+    static Robot bot1 = new Robot("Bot 1", ASCII_Arts.red + "¥" + ASCII_Arts.farbReset,
+            0,3,2,2,3,1,1,3, 3);
 
     //Scanner
     public static Scanner sc = new Scanner(System.in);
@@ -53,9 +58,9 @@ public class main {
 
         //Beginn Part Spieler- & Gegnerinitialisierung
         if (wahlRobot == 1) {
-            gewaehlterAvatar = new Robot("Roboter Nr. 1", robot1.symbol, 100);
+            gewaehlterAvatar = robot1;
         } else if (wahlRobot == 2) {
-            gewaehlterAvatar = new Robot("Roboter Nr. 2", robot2.symbol, 100);
+            gewaehlterAvatar = robot2;
         } else {
             System.out.println("Fehler beim zuweisen des Avatars.");
         }
@@ -68,7 +73,19 @@ public class main {
         //Ende Part Spieler- & Gegnerinitialisierung
 
 
-        System.out.println(player.robot.symbol);
+
+        //Start Werteverteilung des Roboters
+        System.out.println("Alle Werte deines Roboters sind zum Initial mit dem Wert 1 festgesetzt. Bitte verteile nachfolgend " +
+                "die [" + gewaehlterAvatar.skillpoints + "] zur Verfügung stehenden Skillpunkte um dir deinen Robotor zu Individualisieren. ");
+        gewaehlterAvatar.printStats();
+
+        //Verteilung der Skillpunkte bis keine mehr übrig sind
+        while (gewaehlterAvatar.skillpoints > 0) {
+            gewaehlterAvatar.changeStats();
+        }
+        //Ende Werteverteilung des Rooboters
+
+
 
         //Beginn Part Spielfeldinitialisierung
         Game game = new Game(' ', ' ', true, false);
@@ -109,7 +126,7 @@ public class main {
                 if (i == Player.posZeile && j == Player.posSpalte) {
                     Gameboard.gameboard[i][j] = " [" + gewaehlterAvatar.symbol + "]";
                 } else if (i == KI.posZeile && j == KI.posSpalte) {
-                    if (Gameboard.gameboard[i][j].equals(" [ ]")) {
+                    if (!Gameboard.gameboard[i][j].equals(" [" + gewaehlterAvatar.symbol + "]")) {
                         Gameboard.gameboard[i][j] = " [" + gegner.robot.symbol + "]";
                     } else {
                         Gameboard.gameboard[i+1][j+1] = " [" + gegner.robot.symbol + "]";
