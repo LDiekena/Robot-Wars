@@ -21,9 +21,6 @@ public class main {
     public static String avatar2 = robot2.symbol;
     public static Robot gewaehlterAvatar;
 
-    //Erstellung des Gegners
-    public static String gegner = bot1.symbol;
-
     public static void main(String[] args) {
 
         //Beginn Part Begrüßung und Avatarauswahl
@@ -66,7 +63,7 @@ public class main {
         }
 
         System.out.println("Du hast den Roboter Nr. " + gewaehlterAvatar.name + " gewählt. Auf dem Spielfeld wird dieser durch das Symbol " +
-                gewaehlterAvatar.symbol + " repräsentiert. Dein Gegner wird mit dem Symbol " + gegner + " angezeigt\n");
+                gewaehlterAvatar.symbol + " repräsentiert. Dein Gegner wird mit dem Symbol " + bot1.symbol + " angezeigt\n");
 
         Player player = new Player(name, Gameboard.randomNumberRow(), Gameboard.randomNumberColumn(), 0, 0, gewaehlterAvatar);
         KI gegner = new KI("Bot 1", Gameboard.randomNumberRow(), Gameboard.randomNumberColumn(), "easy", bot1);
@@ -91,53 +88,11 @@ public class main {
         Game game = new Game(' ', ' ', true, false);
         System.out.println("Das Spielfeld wird für das Spiel vorbereitet.\n");
 
-        Gameboard.fillStartboard();
-
-        int plantCounter = 0;
-        int stoneCounter = 0;
-        int waterCounter = 0;
-
-        //Barrieren auf dem Spielfeld einfügen, je nach Typ anderes Symbol
-        for (int i = 0; i < Gameboard.gameboard.length; i++) {
-            for (int j = 0; j < Gameboard.gameboard[i].length; j++) {
-                if (waterCounter < Barrier.randomBarrierMax() && Gameboard.gameboard[i][j].equals(" [ ]")) {
-                    Barrier waterbarrier = new Barrier("water", ASCII_Arts.blau + "≋" + ASCII_Arts.farbReset, 15, Gameboard.randomNumberRow()
-                            , Gameboard.randomNumberColumn());
-                    Gameboard.gameboard[waterbarrier.posZeile][waterbarrier.posSpalte] = " [" + waterbarrier.symbol + "]";
-                    waterCounter++;
-                } else if (stoneCounter < Barrier.randomBarrierMax() && Gameboard.gameboard[i][j].equals(" [ ]")) {
-                    Barrier stoneBarrier = new Barrier("stone", "▲", 20, Gameboard.randomNumberRow()
-                            , Gameboard.randomNumberColumn());
-                    Gameboard.gameboard[stoneBarrier.posZeile][stoneBarrier.posSpalte] = " [" + stoneBarrier.symbol + "]";
-                    stoneCounter++;
-                } else if (plantCounter < Barrier.randomBarrierMax() && Gameboard.gameboard[i][j].equals(" [ ]")) {
-                    Barrier plantBarrier = new Barrier("water", ASCII_Arts.gruen + "♣" + ASCII_Arts.farbReset, 10, Gameboard.randomNumberRow()
-                            , Gameboard.randomNumberColumn());
-                    Gameboard.gameboard[plantBarrier.posZeile][plantBarrier.posSpalte] = " [" + plantBarrier.symbol + "]";
-                    plantCounter++;
-                }
-
-            }
-        }
-
-        //Spielerposition und Gegnerposition auf Spielfeld einfügen
-        for (int i = 0; i < Gameboard.gameboard.length; i++) {
-            for (int j = 0; j < Gameboard.gameboard[i].length; j++) {
-                if (i == Player.posZeile && j == Player.posSpalte) {
-                    Gameboard.gameboard[i][j] = " [" + gewaehlterAvatar.symbol + "]";
-                } else if (i == KI.posZeile && j == KI.posSpalte) {
-                    if (!Gameboard.gameboard[i][j].equals(" [" + gewaehlterAvatar.symbol + "]")) {
-                        Gameboard.gameboard[i][j] = " [" + gegner.robot.symbol + "]";
-                    } else {
-                        Gameboard.gameboard[i+1][j+1] = " [" + gegner.robot.symbol + "]";
-                        //TODO: Randomize neue Position
-                    }
-                }
-            }
-        }
-
-        //Print vom Startspielfeld
-        Gameboard.printGameBoard();
+        //Inizialisierung leere Felder, Barrieren, Roboterpositionen und Ausgabe des Spielfeldes
+        board.fillStartboard();
+        board.placeBarrier();
+        board.placeRobots(gewaehlterAvatar.symbol, gegner.robot.symbol);
+        board.printGameBoard();
 
         //Position des Spielers und Bots beim Start schriftlich für den Spieler
         System.out.println("\nDein Roboter befindet sich zu Beginn in dem Feld (" + (Player.posZeile +1) + "|" + (Player.posSpalte +1) + ").");
@@ -158,7 +113,7 @@ public class main {
                 System.out.println("\n" + player.name + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
                         ", möchtest du auf der aktuellen Position verweilen gebe eine 5 ein.");
                 Game.zugEingabe = sc.next().charAt(0);
-                if (testZugGueltig(Player.posZeile, Player.posSpalte, Game.zugEingabe)) { // && testBarrierInWay(posZeile, posSpalte, zugEingabe)
+                if (game.isMoveValid(Player.posZeile, Player.posSpalte, Game.zugEingabe)) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
                     Player.move(Game.zugEingabe, player.robot.symbol, Player.posZeile, Player.posSpalte, Game.spielerZug, Game.gegnerZug);
                     System.out.println("Dein Roboter befindet sich auf dem Feld (" + (Player.posZeile +1) + "|" + (Player.posSpalte +1) + ").");
                 } else {
@@ -172,7 +127,7 @@ public class main {
             } else if (Objects.equals(gewaehlterAvatar.symbol, avatar2)) {
                 System.out.println(ASCII_Arts.purple + "\n Spielerzug \n" + ASCII_Arts.farbReset);
             }
-            Gameboard.printGameBoard();
+            board.printGameBoard();
 
             //Spieler überschreibt den Gegner -> Spielersieg
             if (Player.posZeile == KI.posZeile && Player.posSpalte == KI.posSpalte) {
@@ -183,7 +138,7 @@ public class main {
                     System.out.println("\nDer Gegner ist am Zug und macht seine Eingabe");
                     Game.gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
                     System.out.println("Der Gegner hat die Eingabe " + Game.gegnerZugEingabe + " gewählt");
-                    if (testZugGueltig(KI.posZeile, KI.posSpalte, Game.gegnerZugEingabe)) { // && testBarrierInWay(posZeile, posSpalte, zugEingabe)
+                    if (game.isMoveValid(KI.posZeile, KI.posSpalte, Game.gegnerZugEingabe)) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
                         KI.move(Game.gegnerZugEingabe, KI.posZeile, KI.posSpalte, gegner.robot.symbol, Game.spielerZug, Game.gegnerZug);
                         System.out.println("Der Gegner " + gegner.name + " befindet sich auf dem Feld (" + (KI.posZeile +1) + "|"
                                 + (KI.posSpalte +1) + ").");
@@ -195,7 +150,7 @@ public class main {
 
                 //Ausgabe des Gegnerzuges
                 System.out.println(ASCII_Arts.red + "\n Gegnerzug \n" + ASCII_Arts.farbReset);
-                Gameboard.printGameBoard();
+                board.printGameBoard();
 
                 //Gegner überschreibt Spieler -> Gegnersieg
                 if (KI.posZeile == Player.posZeile && KI.posSpalte == Player.posSpalte) {
@@ -204,39 +159,6 @@ public class main {
             }
         }
         //Ende Part Spiel
-    }
-
-
-    //Methode zum Prüfen der Zuggültigkeit
-    public static boolean testZugGueltig (int posZeile, int posSpalte, char zugEingabe) {
-        if (posZeile == 9 && zugEingabe == '2') {
-            return false;
-        } else if (posZeile == 0 && zugEingabe == '8') {
-            return false;
-        } else if (posSpalte == 14 && zugEingabe == '6') {
-            return false;
-        } else if (posSpalte == 0 && zugEingabe == '4') {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    //TODO: Barrier Abfrage/ Feld muss leer sein, Implementierung "Kampf" gegen Barrier, erst nach Sieg weiter move (5 LP pro Hit)
-    //Methode zum Prüfen ob eine Barriere im Weg ist
-    public static boolean testBarrierInWay (int posZeile, int posSpalte, char zugEingabe) {
-        if (zugEingabe == '2' && Gameboard.gameboard[posZeile - 1][posSpalte] != " [ ]") {
-            return false;
-        } else if (zugEingabe == '4' && Gameboard.gameboard[posZeile][posSpalte - 1] != " [ ]") {
-            return false;
-        } else if (zugEingabe == '5') {
-            return true;
-        } else if (zugEingabe == '6' && Gameboard.gameboard[posZeile][posSpalte + 1] != " [ ]") {
-            return false;
-        } else if (zugEingabe == '8' && Gameboard.gameboard[posZeile + 1][posSpalte] != " [ ]") {
-            return false;
-        }
-        return true;
     }
 
 }

@@ -12,23 +12,36 @@ public class Game {
         Game.gegnerZug = gegnerZug;
     }
 
-    /*
-    //Methode für die Startpositionen
-    //Spielerposition und Gegnerposition auf Spielfeld einfügen
-        for (int i = 0; i < Gameboard.gameboard.length; i++) {
-        for (int j = 0; j < Gameboard.gameboard[i].length; j++) {
-            if (i == player.posZeile && j == player.posSpalte) {
-                Gameboard.gameboard[i][j] = " [" + gewaehlterAvatar.symbol + "]";
-            } else if (i == gegner.posZeile && j == gegner.posSpalte) {
-                if (Gameboard.gameboard[i][j].equals(" [ ]")) {
-                    Gameboard.gameboard[i][j] = " [" + gegner.robot.symbol + "]";
-                } else {
-                    Gameboard.gameboard[i+1][j+1] = " [" + gegner.robot.symbol + "]";
-                    //TODO: Randomize neue Position
-                }
-            }
+    //Methode Zuggültigkeit
+    public boolean isMoveValid(int posZeile, int posSpalte, char zugEingabe) {
+        if (posZeile == 9 && zugEingabe == '2') {
+            return false;
+        } else if (posZeile == 0 && zugEingabe == '8') {
+            return false;
+        } else if (posSpalte == 14 && zugEingabe == '6') {
+            return false;
+        } else if (posSpalte == 0 && zugEingabe == '4') {
+            return false;
+        } else {
+            return true;
         }
     }
 
-     */
+    //TODO: Barrier Abfrage/ Feld muss leer sein, Implementierung "Kampf" gegen Barrier, erst nach Sieg weiter move (5 LP pro Hit)
+    //Methode zum Prüfen ob eine Barriere im Weg ist
+    public boolean testBarrierInWay (int posZeile, int posSpalte, char zugEingabe) {
+        if (zugEingabe == '2' && Gameboard.gameboard[posZeile - 1][posSpalte] != " [ ]") {
+            return false;
+        } else if (zugEingabe == '4' && Gameboard.gameboard[posZeile][posSpalte - 1] != " [ ]") {
+            return false;
+        } else if (zugEingabe == '5') {
+            return true;
+        } else if (zugEingabe == '6' && Gameboard.gameboard[posZeile][posSpalte + 1] != " [ ]") {
+            return false;
+        } else if (zugEingabe == '8' && Gameboard.gameboard[posZeile + 1][posSpalte] != " [ ]") {
+            return false;
+        }
+        return true;
+    }
+
 }
