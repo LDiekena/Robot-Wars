@@ -17,7 +17,7 @@ public class Barrier {
     }
 
     //Methode für zufällige Zeile
-    public static int randomBarrierMax () {
+    public static int randomBarrierMax() {
         Random r = new Random();
         return r.nextInt(20);
     }

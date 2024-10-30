@@ -1,17 +1,17 @@
 import java.util.*;
 
-public class main {
+public class runGame {
     //Objektgenerierung
     static ASCII_Arts asciiArts = new ASCII_Arts();
     static Gameboard board = new Gameboard(10, 15);
     static Robot robot1 = new Robot("Roboter Nr. 1", ASCII_Arts.cyan + "§" + ASCII_Arts.farbReset,
-            10,1,1,1,1,1,1,1, 1);
+            10, 1, 1, 1, 1, 1, 1, 1, 1);
     static Robot robot2 = new Robot("Roboter Nr. 1", ASCII_Arts.purple + "∆" + ASCII_Arts.farbReset,
-            10,1,1,1,1,1,1,1, 1);
+            10, 1, 1, 1, 1, 1, 1, 1, 1);
 
     //KI Robot erstmal mit fester Skillverteilung, TODO: später eventuell noch random verteilt
     static Robot bot1 = new Robot("Bot 1", ASCII_Arts.red + "¥" + ASCII_Arts.farbReset,
-            0,3,2,2,3,1,1,3, 3);
+            0, 3, 2, 2, 3, 1, 1, 3, 3);
 
     //Scanner
     public static Scanner sc = new Scanner(System.in);
@@ -21,7 +21,7 @@ public class main {
     public static String avatar2 = robot2.symbol;
     public static Robot gewaehlterAvatar;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         //Beginn Part Begrüßung und Avatarauswahl
         //Ausgabe Willkomensintro für den Spieler
@@ -52,7 +52,6 @@ public class main {
         //Ende Part Begrüßung und Avatarauswahl
 
 
-
         //Beginn Part Spieler- & Gegnerinitialisierung
         if (wahlRobot == 1) {
             gewaehlterAvatar = robot1;
@@ -70,7 +69,6 @@ public class main {
         //Ende Part Spieler- & Gegnerinitialisierung
 
 
-
         //Start Werteverteilung des Roboters
         System.out.println("Alle Werte deines Roboters sind zum Initial mit dem Wert 1 festgesetzt. Bitte verteile nachfolgend " +
                 "die [" + gewaehlterAvatar.skillpoints + "] zur Verfügung stehenden Skillpunkte um dir deinen Robotor zu Individualisieren. ");
@@ -83,21 +81,22 @@ public class main {
         //Ende Werteverteilung des Rooboters
 
 
-
+        
         //Beginn Part Spielfeldinitialisierung
         Game game = new Game(' ', ' ', true, false);
         System.out.println("Das Spielfeld wird für das Spiel vorbereitet.\n");
+        java.lang.Thread.sleep(2000); //Künstliche Pause
 
-        //Inizialisierung leere Felder, Barrieren, Roboterpositionen und Ausgabe des Spielfeldes
+        //Initialisierung leere Felder, Barrieren, Roboterpositionen und Ausgabe des Spielfeldes
         board.fillStartboard();
         board.placeBarrier();
         board.placeRobots(gewaehlterAvatar.symbol, gegner.robot.symbol);
         board.printGameBoard();
 
         //Position des Spielers und Bots beim Start schriftlich für den Spieler
-        System.out.println("\nDein Roboter befindet sich zu Beginn in dem Feld (" + (Player.posZeile +1) + "|" + (Player.posSpalte +1) + ").");
-        System.out.println("Dein Gegner " + gegner.name + " befindet sich zu Beginn in dem Feld (" + (KI.posZeile +1) + "|"
-                + (KI.posSpalte +1) + "). \nViel Spaß beim Spielen!");
+        System.out.println("\nDein Roboter befindet sich zu Beginn in dem Feld (" + (Player.posZeile + 1) + "|" + (Player.posSpalte + 1) + ").");
+        System.out.println("Dein Gegner " + gegner.name + " befindet sich zu Beginn in dem Feld (" + (KI.posZeile + 1) + "|"
+                + (KI.posSpalte + 1) + "). \nViel Spaß beim Spielen!");
         //Ende Part Spielfeldinitialisierung
 
 
@@ -115,7 +114,7 @@ public class main {
                 Game.zugEingabe = sc.next().charAt(0);
                 if (game.isMoveValid(Player.posZeile, Player.posSpalte, Game.zugEingabe)) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
                     Player.move(Game.zugEingabe, player.robot.symbol, Player.posZeile, Player.posSpalte, Game.spielerZug, Game.gegnerZug);
-                    System.out.println("Dein Roboter befindet sich auf dem Feld (" + (Player.posZeile +1) + "|" + (Player.posSpalte +1) + ").");
+                    System.out.println("Dein Roboter befindet sich auf dem Feld (" + (Player.posZeile + 1) + "|" + (Player.posSpalte + 1) + ").");
                 } else {
                     System.out.println("Dieser Zug würde aus dem Spielfeld führen oder eine Barriere ist im Weg, bitte versuche es erneut. ");
                 }
@@ -135,13 +134,14 @@ public class main {
             } else {
                 //Gegnerzug
                 while (Game.gegnerZug) {
-                    System.out.println("\nDer Gegner ist am Zug und macht seine Eingabe");
+                    System.out.println("\nDer Gegner ist am Zug und macht seine Eingabe...");
+                    java.lang.Thread.sleep(1500); //Künstliche Pause
                     Game.gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
                     System.out.println("Der Gegner hat die Eingabe " + Game.gegnerZugEingabe + " gewählt");
                     if (game.isMoveValid(KI.posZeile, KI.posSpalte, Game.gegnerZugEingabe)) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
                         KI.move(Game.gegnerZugEingabe, KI.posZeile, KI.posSpalte, gegner.robot.symbol, Game.spielerZug, Game.gegnerZug);
-                        System.out.println("Der Gegner " + gegner.name + " befindet sich auf dem Feld (" + (KI.posZeile +1) + "|"
-                                + (KI.posSpalte +1) + ").");
+                        System.out.println("Der Gegner " + gegner.name + " befindet sich auf dem Feld (" + (KI.posZeile + 1) + "|"
+                                + (KI.posSpalte + 1) + ").");
                     } else {
                         System.out.println("Die Eingabe des Gegners würde aus dem Spielfeld führen oder eine Barriere ist im Weg, der Gegner versucht es erneut.");
                         Game.gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später

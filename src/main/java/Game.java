@@ -5,11 +5,15 @@ public class Game {
     public static boolean spielerZug;
     public static boolean gegnerZug;
 
-    public Game (char zugEingabe, char gegnerZugEingabe, boolean spielerZug, boolean gegnerZug) {
+    public Game(char zugEingabe, char gegnerZugEingabe, boolean spielerZug, boolean gegnerZug) {
         Game.zugEingabe = zugEingabe;
         Game.gegnerZugEingabe = gegnerZugEingabe;
         Game.spielerZug = spielerZug;
         Game.gegnerZug = gegnerZug;
+    }
+
+    public void gameRound() {
+        //TODO: Aus main hier rüber?
     }
 
     //Methode Zuggültigkeit
@@ -29,7 +33,7 @@ public class Game {
 
     //TODO: Barrier Abfrage/ Feld muss leer sein, Implementierung "Kampf" gegen Barrier, erst nach Sieg weiter move (5 LP pro Hit)
     //Methode zum Prüfen ob eine Barriere im Weg ist
-    public boolean testBarrierInWay (int posZeile, int posSpalte, char zugEingabe) {
+    public boolean testBarrierInWay(int posZeile, int posSpalte, char zugEingabe) {
         if (zugEingabe == '2' && Gameboard.gameboard[posZeile - 1][posSpalte] != " [ ]") {
             return false;
         } else if (zugEingabe == '4' && Gameboard.gameboard[posZeile][posSpalte - 1] != " [ ]") {

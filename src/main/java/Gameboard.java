@@ -14,13 +14,13 @@ public class Gameboard {
     }
 
     //Methode für zufällige Zeile
-    public static int randomNumberRow () {
+    public static int randomNumberRow() {
         Random r = new Random();
         return r.nextInt(9);
     }
 
     //Methode für zufällige Spalte
-    public static int randomNumberColumn () {
+    public static int randomNumberColumn() {
         Random r = new Random();
         return r.nextInt(14);
     }
@@ -35,7 +35,7 @@ public class Gameboard {
     }
 
     //Fülle leeres Spielfeld mit Barrieren
-    public void placeBarrier () {
+    public void placeBarrier() {
         int plantCounter = 0;
         int stoneCounter = 0;
         int waterCounter = 0;
@@ -53,7 +53,7 @@ public class Gameboard {
                     gameboard[stoneBarrier.posZeile][stoneBarrier.posSpalte] = " [" + stoneBarrier.symbol + "]";
                     stoneCounter++;
                 } else if (plantCounter < Barrier.randomBarrierMax() && gameboard[i][j].equals(" [ ]")) {
-                    Barrier plantBarrier = new Barrier("water", ASCII_Arts.gruen + "♣" + ASCII_Arts.farbReset, 10, randomNumberRow()
+                    Barrier plantBarrier = new Barrier("plant", ASCII_Arts.gruen + "♣" + ASCII_Arts.farbReset, 10, randomNumberRow()
                             , randomNumberColumn());
                     gameboard[plantBarrier.posZeile][plantBarrier.posSpalte] = " [" + plantBarrier.symbol + "]";
                     plantCounter++;
@@ -72,7 +72,7 @@ public class Gameboard {
                     if (!gameboard[i][j].equals(" [" + gewaehlterAvatar + "]")) {
                         gameboard[i][j] = " [" + gegner + "]";
                     } else {
-                        gameboard[i+1][j+1] = " [" + gegner + "]";
+                        gameboard[i + 1][j + 1] = " [" + gegner + "]";
                         //TODO: Randomize neue Position
                     }
                 }

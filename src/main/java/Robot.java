@@ -1,5 +1,3 @@
-import com.sun.tools.javac.Main;
-
 public class Robot {
     String name;
     String symbol;
@@ -13,7 +11,7 @@ public class Robot {
     int accuracy;
     int mobility;
 
-    public Robot(String name, String symbol, int skillpoints, int life, int energy, int shield, int  damage, int range, int damageZone, int accuracy, int mobility) {
+    public Robot(String name, String symbol, int skillpoints, int life, int energy, int shield, int damage, int range, int damageZone, int accuracy, int mobility) {
         this.name = name;
         this.symbol = symbol;
         this.skillpoints = skillpoints;
@@ -27,7 +25,7 @@ public class Robot {
         this.mobility = mobility;
     }
 
-    public int getAttribute (int attributeInput) {
+    public int getAttribute(int attributeInput) {
         if (attributeInput == 1) {
             return this.life;
         } else if (attributeInput == 2) {
@@ -47,7 +45,7 @@ public class Robot {
         }
     }
 
-    public void printStats () {
+    public void printStats() {
         System.out.println("1. Leben: " + life);
         System.out.println("2. Schild: " + shield);
         System.out.println("3. Energie: " + energy);
@@ -58,52 +56,59 @@ public class Robot {
         System.out.println("\nVerbleibende Anzahl an Skillpunkten: " + skillpoints + "\n");
     }
 
-    public void changeStats () {
+    public void changeStats() {
         //Eingabe Attributauswahl
         System.out.println("Bitte gebe das Attribut an das du verändern möchtest: ");
-        int attributAuswahl = main.sc.nextInt();
+        int attributAuswahl = runGame.sc.nextInt();
 
+        //Wiederholung der Eingabe Attributauswahl falls diese falsch ist
         while (attributAuswahl < 1 || attributAuswahl > 7) {
             System.out.println("Fehlerhafte Eingabe, bitte versuchen Sie es erneut: ");
-            attributAuswahl = main.sc.nextInt();
+            attributAuswahl = runGame.sc.nextInt();
         }
 
         //Eingabe Steigerung oder Senkung
         System.out.println("Bitte gebe nun ein ob du den Wert erhöhen (+) oder senken (-) möchtest: ");
-        char attributChangeType = main.sc.next().charAt(0);
+        char attributChangeType = runGame.sc.next().charAt(0);
 
+        //Wiederholung der Eingabe Steigerung/ Senkung falls diese falsch ist
         while (attributChangeType != '+' && attributChangeType != '-') {
             System.out.println("Fehlerhafte Eingabe, bitte versuchen Sie es erneut: ");
-            attributChangeType = main.sc.next().charAt(0);
+            attributChangeType = runGame.sc.next().charAt(0);
         }
 
         //Eingabe Veränderungswert
         System.out.println("Bitte gebe nun den Wert an um den du das gewählte Attribut ändern möchtest: ");
-        int numberToChange = main.sc.nextInt();
+        int numberToChange = runGame.sc.nextInt();
 
-        //Abfrage Zahl übersteigt nicht die Skillpunkte
-        if (numberToChange > skillpoints) {
-            while (numberToChange > skillpoints) {
-                System.out.println("Die eingegebene Anzahl übersteigt deine noch vorhandenen Skillpunkte, bitte" +
-                        " versuche es erneut: ");
-                numberToChange = main.sc.nextInt();
-            }
-            //Abfrage Senkung bei bereits Minimalwert
-        } else if (attributChangeType == '-' && getAttribute(attributAuswahl) == 1) {
-            System.out.println("Das ausgewählte Attribut ist bereits auf dem Minimalwert und kann nicht noch weiter gesenkt werden!\n");
+        //Wiederholung der Eingabe je nach Fehlerfall
+        while (numberToChange > skillpoints && attributChangeType == '+' || attributChangeType == '-' && getAttribute(attributAuswahl) == 1 ||
+                attributChangeType == '-' && getAttribute(attributAuswahl) - numberToChange < 1) {
+            //Abfrage Eingabe übersteigt Skillpunkte
+            if (numberToChange > skillpoints && attributChangeType == '+') {
+                System.out.println("Die eingegebene Anzahl übersteigt deine noch vorhandenen Skillpunkte, bitte versuche es erneut: ");
+                numberToChange = runGame.sc.nextInt();
+            //Abfrage gewähltes Attribut hat bereits Minimalwert
+            } else if (attributChangeType == '-' && getAttribute(attributAuswahl) == 1) {
+                System.out.println("Das ausgewählte Attribut ist bereits auf dem Minimalwert und kann nicht noch weiter gesenkt werden! Bitte gebe einen Wert ein um den du erhöhen" +
+                        " möchtest:");
+                attributChangeType = '+';
+                numberToChange = runGame.sc.nextInt();
             //Abfrage Senkung unterschreitet nicht den Minimalwert
-        } else if (attributChangeType == '-' && getAttribute(attributAuswahl) - numberToChange < 1) {
-            while (getAttribute(attributAuswahl) - numberToChange < 1) {
-                System.out.println("Der eingegebene Wert würde den Minimalwert unterschreiten, bitte versuchen sie es erneut: ");
-                numberToChange = main.sc.nextInt();
+            } else if (attributChangeType == '-' && getAttribute(attributAuswahl) - numberToChange < 1) {
+                System.out.println("Der eingegebene Wert würde den Minimalwert unterschreiten, bitte versuche es erneut: ");
+                numberToChange = runGame.sc.nextInt();
             }
-            //Wertsteigerung des Attributes
-        } else if (attributChangeType == '+') {
+        }
+
+        //Wertsteigerung des Attributes
+        if (attributChangeType == '+') {
             skillIncrease(attributAuswahl, numberToChange);
             System.out.println("Das ausgewählte Attribut wurde erfolgreich um " + numberToChange + " erhöht. Deine Verteilung" +
                     " sieht nun wie folgt aus:");
             printStats();
-            //Wertminderung des Attributes
+
+        //Wertminderung des Attributes
         } else if (attributChangeType == '-') {
             skillDecrease(attributAuswahl, numberToChange);
             System.out.println("Das ausgewählte Attribut wurde erfolgreich um " + numberToChange + " gesenkt. Deine Verteilung" +
@@ -114,7 +119,7 @@ public class Robot {
         }
     }
 
-    public void skillIncrease (int attribute, int numberToIncrease) {
+    public void skillIncrease(int attribute, int numberToIncrease) {
         if (attribute == 1) {
             life = life + numberToIncrease;
             skillpoints = skillpoints - numberToIncrease;
@@ -136,12 +141,12 @@ public class Robot {
         } else if (attribute == 7) {
             accuracy = accuracy + numberToIncrease;
             skillpoints = skillpoints - numberToIncrease;
-        }else {
+        } else {
             System.out.println("Fehler bei der Zuweisung der Skillpunkte");
         }
     }
 
-    public void skillDecrease (int attribute, int numberToDecrease) {
+    public void skillDecrease(int attribute, int numberToDecrease) {
         if (attribute == 1) {
             life = life - numberToDecrease;
             skillpoints = skillpoints + numberToDecrease;
@@ -163,7 +168,7 @@ public class Robot {
         } else if (attribute == 7) {
             accuracy = accuracy - numberToDecrease;
             skillpoints = skillpoints + numberToDecrease;
-        }else {
+        } else {
             System.out.println("Fehler bei der Zuweisung der Skillpunkte");
         }
     }

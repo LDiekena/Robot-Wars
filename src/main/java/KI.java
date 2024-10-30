@@ -17,7 +17,7 @@ public class KI {
     }
 
     //Methode für zufälligen Gegnerzug
-    public static char randomGegnerzug () {
+    public static char randomGegnerzug() {
         char gegnerzug = ' ';
         Random r = new Random();
         int randomNumber = r.nextInt(5);
@@ -38,7 +38,7 @@ public class KI {
 
     //TODO: ggf Alternative Bewegung anhand der Entscheidung des Spielers
     //Methode zum Bewegen des Bots
-    public static void move (char gegnerZugEingabe, int posGegnerZeile, int posGegnerSpalte, String gegner, boolean spielerZug, boolean gegnerZug) {
+    public static void move(char gegnerZugEingabe, int posGegnerZeile, int posGegnerSpalte, String gegner, boolean spielerZug, boolean gegnerZug) {
         Gameboard.gameboard[KI.posZeile][KI.posSpalte] = " [ ]";
         if (gegnerZugEingabe == '8') {
             KI.posZeile = posGegnerZeile - 1;
