@@ -83,4 +83,40 @@ public class Game {
         return true;
     }
 
+    //Methode zur Abfrage ob Roboter in Angriffsreichweite ist
+    public boolean inRange(KI gegner, Player player) {
+        //Spieler kann Gegner erreichen (horizontal und vertikal)
+        //TODO: Betrachtung bislang nur genau die Reichweite erreicht, Implementierung auch für den Fall das man näher dran ist!
+        if (player.getPosZeile() + player.getRobot().getRange() == gegner.getPosZeile() || player.getPosSpalte() + player.getRobot().getRange() == gegner.getPosSpalte()
+        || player.getPosZeile() - player.getRobot().getRange() == gegner.getPosZeile() || player.getPosSpalte() - player.getRobot().getRange() == gegner.getPosSpalte()) {
+            return true;
+        // Gegner kann Spieler erreichen (horizontal und vertikal)
+        } else if (gegner.getPosZeile() + gegner.getRobot().getRange() == player.getPosZeile() || gegner.getPosSpalte() + gegner.getRobot().getRange() == player.getPosSpalte()
+        || gegner.getPosZeile() - gegner.getRobot().getRange() == player.getPosZeile() || gegner.getPosSpalte() - gegner.getRobot().getRange() == player.getPosSpalte()) {
+            return true;
+        //Spieler kann Gegner erreichen (diagonal)
+        } else if (player.getPosZeile() + player.getRobot().getRange() == gegner.getPosZeile() && player.getPosSpalte() + player.getRobot().getRange() <= gegner.getPosSpalte()
+                || player.getPosZeile() + player.getRobot().getRange() == gegner.getPosZeile() && player.getPosSpalte() - player.getRobot().getRange() <= gegner.getPosSpalte()
+                || player.getPosZeile() - player.getRobot().getRange() == gegner.getPosZeile() && player.getPosSpalte() - player.getRobot().getRange() <= gegner.getPosSpalte()
+                || player.getPosZeile() - player.getRobot().getRange() == gegner.getPosZeile() && player.getPosSpalte() + player.getRobot().getRange() <= gegner.getPosSpalte()) {
+            return true;
+        //Gegner kann Spieler erreichen (diagonal)
+        } else if (gegner.getPosZeile() + gegner.getRobot().getRange() == player.getPosZeile() && gegner.getPosSpalte() + gegner.getRobot().getRange() == player.getPosSpalte()
+                || gegner.getPosZeile() + gegner.getRobot().getRange() == player.getPosZeile() && gegner.getPosSpalte() - gegner.getRobot().getRange() == player.getPosSpalte()
+                || gegner.getPosZeile() - gegner.getRobot().getRange() == player.getPosZeile() && gegner.getPosSpalte() - gegner.getRobot().getRange() == player.getPosSpalte()
+                || gegner.getPosZeile() - gegner.getRobot().getRange() == player.getPosZeile() && gegner.getPosSpalte() + gegner.getRobot().getRange() == player.getPosSpalte()) {
+            return true;
+        } else if (player.getPosZeile() + player.getRobot().getRange() > runGame.board.getRows()
+                || player.getPosSpalte() + player.getRobot().getRange() > runGame.board.getCols()
+                || gegner.getPosZeile() + gegner.getRobot().getRange() > runGame.board.getRows()
+                || gegner.getPosSpalte() + gegner.getRobot().getRange() > runGame.board.getCols()
+                || player.getPosZeile() - player.getRobot().getRange() < runGame.board.getRows()
+                || player.getPosSpalte() - player.getRobot().getRange() < runGame.board.getCols()
+                || gegner.getPosZeile() - gegner.getRobot().getRange() < runGame.board.getRows()
+                || gegner.getPosSpalte() - gegner.getRobot().getRange() < runGame.board.getCols()) {
+            return false;
+        }
+        return false;
+    }
+
 }

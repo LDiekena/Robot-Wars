@@ -6,12 +6,12 @@ public class runGame {
     static Gameboard board = new Gameboard(10, 15);
     static Game game = new Game(' ', ' ', true, false);
     static Robot robot1 = new Robot("Roboter Nr. 1", asciiArts.cyan + "§" + asciiArts.farbReset,
-            10, 1, 1, 1, 1, 1, 1, 1, 1);
+            10, 5, 1, 1, 1, 1, 1, 1, 1, "", 5);
     static Robot robot2 = new Robot("Roboter Nr. 2", asciiArts.purple + "∆" + asciiArts.farbReset,
-            10, 1, 1, 1, 1, 1, 1, 1, 1);
+            10, 5, 1, 1, 1, 1, 1, 1, 1, "", 5);
     //KI Robot erstmal mit fester Skillverteilung, TODO: später eventuell noch random verteilt
     static Robot bot1 = new Robot("Bot 1", asciiArts.red + "¥" + asciiArts.farbReset,
-            0, 3, 2, 2, 3, 1, 1, 3, 3);
+            0, 7, 2, 2, 3, 1, 1, 3, 3, "", 35);
 
     //Scanner
     public static Scanner sc = new Scanner(System.in);
@@ -91,6 +91,7 @@ public class runGame {
         board.placeBarrier();
         board.placeRobots(gewaehlterAvatar.getSymbol(), gegner.getRobot().getSymbol(), player.getPosZeile(), player.getPosSpalte(), gegner.getPosZeile(), gegner.getPosSpalte());
         board.printGameBoard();
+        gewaehlterAvatar.setHealth(gewaehlterAvatar.getHealth() * gewaehlterAvatar.getLife());
 
         //Position des Spielers und Bots beim Start schriftlich für den Spieler
         System.out.println("\nDein Roboter befindet sich zu Beginn in dem Feld (" + (player.getPosZeile() + 1) + "|" + (player.getPosSpalte() + 1) + ").");
@@ -98,12 +99,13 @@ public class runGame {
                 + (gegner.getPosSpalte() + 1) + "). \nViel Spaß beim Spielen!");
         //Ende Part Spielfeldinitialisierung
 
+        if(game.inRange(gegner, player)) {
+            System.out.println("Gegner befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
+        }
+        //TODO: Kampf oder bewegen implementieren
 
-
-        /*TODO: Wenn beide auf einem Feld sind dann Kampfsequenz mit beiden Roboter Strings und Lebensanzeige, Aktionsauswahl Attacke oder Flucht, Flucht Auswahl Richtung,
-        vielleicht LP Regeneration nach Anzahl Züge?, erster Hit von Roboter der auf das Feld des anderen ankommt und Kampf startet
-         */
         //Start Part Spiel
+        //TODO: Abfrage Spieler in Angriffsreichweite des Gegners und je nachdem Start Angriff oder Spielerzug
         //Bishergie Gewinnbedingung nur Erreichung des Gegnerfeldes
         while (player.getPosZeile() != gegner.getPosZeile() || player.getPosSpalte() != gegner.getPosSpalte()) {
             //Spielerzug
@@ -114,7 +116,6 @@ public class runGame {
                             ", möchtest du auf der aktuellen Position verweilen gebe eine 5 ein.");
                     char zugEingabe = sc.next().charAt(0);
                     game.setZugEingabe(zugEingabe);
-                    //TODO: MoveCounter anhand der mobility des Roboters, move solange bis Counter = 0
                     if (game.isMoveValid(player.getPosZeile(), player.getPosSpalte(), game.getZugEingabe())) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
                         player.move(game.getZugEingabe(), player.getRobot().getSymbol(), player.getPosZeile(), player.getPosSpalte(), game.getSpielerZug(), game.getGegnerZug());
                         System.out.println("Dein Roboter befindet sich auf dem Feld (" + (player.getPosZeile() + 1) + "|" + (player.getPosSpalte() + 1) + ").");
@@ -134,6 +135,13 @@ public class runGame {
                 }
 
             }
+
+            if(game.inRange(gegner, player)) {
+                System.out.println("Spieler befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
+            }
+            //TODO: Kampf oder bewegen implementieren
+
+            //TODO: Abfrage Gegner in Angriffsdistanz und je nachdem Start Angriff oder Gegnerzug
 
             //Spieler überschreibt den Gegner -> Spielersieg
             if (player.getPosZeile() == gegner.getPosZeile() && player.getPosSpalte() == gegner.getPosSpalte()) {

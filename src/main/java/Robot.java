@@ -10,9 +10,11 @@ public class Robot {
     private int damageZone;
     private int accuracy;
     private int mobility;
+    private String status;
+    private int health;
 
     //Konstruktor
-    public Robot(String name, String symbol, int skillpoints, int life, int energy, int shield, int damage, int range, int damageZone, int accuracy, int mobility) {
+    public Robot(String name, String symbol, int skillpoints, int life, int energy, int shield, int damage, int range, int damageZone, int accuracy, int mobility, String status, int health) {
         this.name = name;
         this.symbol = symbol;
         this.skillpoints = skillpoints;
@@ -24,6 +26,8 @@ public class Robot {
         this.damageZone = damageZone;
         this.accuracy = accuracy;
         this.mobility = mobility;
+        this.status = status;
+        this.health = health;
     }
 
     //Getter
@@ -69,6 +73,25 @@ public class Robot {
 
     public String getName() {
         return name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    //Setter
+
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getAttribute(int attributeInput) {

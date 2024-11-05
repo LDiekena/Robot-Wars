@@ -28,6 +28,8 @@ public class Gameboard {
     }
 
 
+    //TODO: Koordinaten auslagern
+
     //Methode für zufällige Zeile
     public int randomNumberRow() {
         Random r = new Random();
