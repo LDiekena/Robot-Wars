@@ -1,13 +1,13 @@
 public class ASCII_Arts {
 
     //Farbcodes
-    public static final String farbReset = "\u001B[0m";
-    public static final String cyan = "\u001B[36m";
-    public static final String purple = "\u001B[35m";
-    public static final String gelb = "\u001B[33m";
-    public static final String gruen = "\033[0;32m";   // GREEN
-    public static final String blau = "\033[0;34m";
-    public static final String red = "\u001B[31m";
+    public final String farbReset = "\u001B[0m";
+    public final String cyan = "\u001B[36m";
+    public final String purple = "\u001B[35m";
+    public final String gelb = "\u001B[33m";
+    public final String gruen = "\033[0;32m";   // GREEN
+    public final String blau = "\033[0;34m";
+    public final String red = "\u001B[31m";
 
     //Beginn Sammlung ASCII Arts
     String wilkommenASCII = gelb + "           ___\n" +

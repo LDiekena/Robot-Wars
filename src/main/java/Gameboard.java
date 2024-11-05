@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class Gameboard {
+    ASCII_Arts asciiArts = new ASCII_Arts();
     private final int rows;
     private final int cols;
     private final String[][] gameboard;
@@ -28,13 +29,13 @@ public class Gameboard {
 
 
     //Methode für zufällige Zeile
-    public static int randomNumberRow() {
+    public int randomNumberRow() {
         Random r = new Random();
         return r.nextInt(9);
     }
 
     //Methode für zufällige Spalte
-    public static int randomNumberColumn() {
+    public int randomNumberColumn() {
         Random r = new Random();
         return r.nextInt(14);
     }
@@ -57,7 +58,7 @@ public class Gameboard {
         for (int i = 0; i < gameboard.length; i++) {
             for (int j = 0; j < gameboard[i].length; j++) {
                 if (waterCounter < Barrier.randomBarrierMax() && gameboard[i][j].equals(" [ ]")) {
-                    Barrier waterbarrier = new Barrier("water", ASCII_Arts.blau + "≋" + ASCII_Arts.farbReset, 15, randomNumberRow()
+                    Barrier waterbarrier = new Barrier("water", asciiArts.blau + "≋" + asciiArts.farbReset, 15, randomNumberRow()
                             , randomNumberColumn());
                     gameboard[waterbarrier.getPosZeile()][waterbarrier.getPosSpalte()] = " [" + waterbarrier.getSymbol() + "]";
                     waterCounter++;
@@ -67,7 +68,7 @@ public class Gameboard {
                     gameboard[stoneBarrier.getPosZeile()][stoneBarrier.getPosSpalte()] = " [" + stoneBarrier.getSymbol() + "]";
                     stoneCounter++;
                 } else if (plantCounter < Barrier.randomBarrierMax() && gameboard[i][j].equals(" [ ]")) {
-                    Barrier plantBarrier = new Barrier("plant", ASCII_Arts.gruen + "♣" + ASCII_Arts.farbReset, 10, randomNumberRow()
+                    Barrier plantBarrier = new Barrier("plant", asciiArts.gruen + "♣" + asciiArts.farbReset, 10, randomNumberRow()
                             , randomNumberColumn());
                     gameboard[plantBarrier.getPosZeile()][plantBarrier.getPosSpalte()] = " [" + plantBarrier.getSymbol() + "]";
                     plantCounter++;
