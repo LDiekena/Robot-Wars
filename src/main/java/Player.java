@@ -1,48 +1,90 @@
 public class Player {
-    String name;
-    static int posZeile;
-    static int posSpalte;
-    int winHistory;
-    int lossHistory;
-    Robot robot;
+    private final String name;
+    private int posZeile;
+    private int posSpalte;
+    private int winHistory;
+    private int lossHistory;
+    private final Robot robot;
 
     //Constructor
     public Player(String name, int posZeile, int posSpalte, int winHistory, int lossHistory, Robot robot) {
         this.name = name;
-        Player.posZeile = posZeile;
-        Player.posSpalte = posSpalte;
+        this.posZeile = posZeile;
+        this.posSpalte = posSpalte;
         this.winHistory = winHistory;
         this.lossHistory = lossHistory;
         this.robot = robot;
     }
 
+    //Getter
+    public String getName() {
+        return name;
+    }
+
+    public int getPosZeile() {
+        return posZeile;
+    }
+
+    public int getPosSpalte() {
+        return posSpalte;
+    }
+
+    public int getWinHistory() {
+        return winHistory;
+    }
+
+    public int getLossHistory() {
+        return lossHistory;
+    }
+
+    public Robot getRobot() {
+        return robot;
+    }
+
+    //Setter
+    public void setPosZeile(int posZeile) {
+        this.posZeile = posZeile;
+    }
+
+    public void setPosSpalte(int posSpalte) {
+        this.posSpalte = posSpalte;
+    }
+
+    public void setWinHistory(int winHistory) {
+        this.winHistory = winHistory;
+    }
+
+    public void setLossHistory(int lossHistory) {
+        this.lossHistory = lossHistory;
+    }
+
     //Methode zum Bewegen des Spielers
-    public static void move(char zugEingabe, String gewaehlterAvatar, int posZeile, int posSpalte, boolean spielerZug, boolean gegnerZug) {
-        Gameboard.gameboard[Player.posZeile][Player.posSpalte] = " [ ]";
+    public void move(char zugEingabe, String gewaehlterAvatar, int posZeile, int posSpalte, boolean spielerZug, boolean gegnerZug) {
+        runGame.board.getGameboard()[this.posZeile][this.posSpalte] = " [ ]";
         if (zugEingabe == '8') {
-            Player.posZeile = posZeile - 1;
-            Gameboard.gameboard[Player.posZeile][Player.posSpalte] = " [" + gewaehlterAvatar + "]";
-            Game.spielerZug = false;
-            Game.gegnerZug = true;
+            this.posZeile = posZeile - 1;
+            runGame.board.getGameboard()[this.posZeile][this.posSpalte] = " [" + gewaehlterAvatar + "]";
+            runGame.game.setSpielerZug(false);
+            runGame.game.setGegnerZug(true);
         } else if (zugEingabe == '4') {
-            Player.posSpalte = posSpalte - 1;
-            Gameboard.gameboard[Player.posZeile][Player.posSpalte] = " [" + gewaehlterAvatar + "]";
-            Game.spielerZug = false;
-            Game.gegnerZug = true;
+            this.posSpalte = posSpalte - 1;
+            runGame.board.getGameboard()[this.posZeile][this.posSpalte] = " [" + gewaehlterAvatar + "]";
+            runGame.game.setSpielerZug(false);
+            runGame.game.setGegnerZug(true);
         } else if (zugEingabe == '5') {
-            Gameboard.gameboard[Player.posZeile][Player.posSpalte] = " [" + gewaehlterAvatar + "]";
-            Game.spielerZug = false;
-            Game.gegnerZug = true;
+            runGame.board.getGameboard()[this.posZeile][this.posSpalte] = " [" + gewaehlterAvatar + "]";
+            runGame.game.setSpielerZug(false);
+            runGame.game.setGegnerZug(true);
         } else if (zugEingabe == '6') {
-            Player.posSpalte = posSpalte + 1;
-            Gameboard.gameboard[Player.posZeile][Player.posSpalte] = " [" + gewaehlterAvatar + "]";
-            Game.spielerZug = false;
-            Game.gegnerZug = true;
+            this.posSpalte = posSpalte + 1;
+            runGame.board.getGameboard()[this.posZeile][this.posSpalte] = " [" + gewaehlterAvatar + "]";
+            runGame.game.setSpielerZug(false);
+            runGame.game.setGegnerZug(true);
         } else if (zugEingabe == '2') {
-            Player.posZeile = posZeile + 1;
-            Gameboard.gameboard[Player.posZeile][Player.posSpalte] = " [" + gewaehlterAvatar + "]";
-            Game.spielerZug = false;
-            Game.gegnerZug = true;
+            this.posZeile = posZeile + 1;
+            runGame.board.getGameboard()[this.posZeile][this.posSpalte] = " [" + gewaehlterAvatar + "]";
+            runGame.game.setSpielerZug(false);
+            runGame.game.setGegnerZug(true);
         }
     }
 }

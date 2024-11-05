@@ -4,11 +4,11 @@ public class runGame {
     //Objektgenerierung
     static ASCII_Arts asciiArts = new ASCII_Arts();
     static Gameboard board = new Gameboard(10, 15);
+    static Game game = new Game(' ', ' ', true, false);
     static Robot robot1 = new Robot("Roboter Nr. 1", ASCII_Arts.cyan + "§" + ASCII_Arts.farbReset,
             10, 1, 1, 1, 1, 1, 1, 1, 1);
-    static Robot robot2 = new Robot("Roboter Nr. 1", ASCII_Arts.purple + "∆" + ASCII_Arts.farbReset,
+    static Robot robot2 = new Robot("Roboter Nr. 2", ASCII_Arts.purple + "∆" + ASCII_Arts.farbReset,
             10, 1, 1, 1, 1, 1, 1, 1, 1);
-
     //KI Robot erstmal mit fester Skillverteilung, TODO: später eventuell noch random verteilt
     static Robot bot1 = new Robot("Bot 1", ASCII_Arts.red + "¥" + ASCII_Arts.farbReset,
             0, 3, 2, 2, 3, 1, 1, 3, 3);
@@ -17,8 +17,8 @@ public class runGame {
     public static Scanner sc = new Scanner(System.in);
 
     //Spielererstellung mit Zuweisung
-    public static String avatar1 = robot1.symbol;
-    public static String avatar2 = robot2.symbol;
+    public static String avatar1 = robot1.getSymbol();
+    public static String avatar2 = robot2.getSymbol();
     public static Robot gewaehlterAvatar;
 
     public static void main(String[] args) throws InterruptedException {
@@ -61,8 +61,8 @@ public class runGame {
             System.out.println("Fehler beim zuweisen des Avatars.");
         }
 
-        System.out.println("Du hast den Roboter Nr. " + gewaehlterAvatar.name + " gewählt. Auf dem Spielfeld wird dieser durch das Symbol " +
-                gewaehlterAvatar.symbol + " repräsentiert. Dein Gegner wird mit dem Symbol " + bot1.symbol + " angezeigt\n");
+        System.out.println("Du hast den Roboter Nr. " + gewaehlterAvatar.getName() + " gewählt. Auf dem Spielfeld wird dieser durch das Symbol " +
+                gewaehlterAvatar.getSymbol() + " repräsentiert. Dein Gegner wird mit dem Symbol " + bot1.getSymbol() + " angezeigt\n");
 
         Player player = new Player(name, Gameboard.randomNumberRow(), Gameboard.randomNumberColumn(), 0, 0, gewaehlterAvatar);
         KI gegner = new KI("Bot 1", Gameboard.randomNumberRow(), Gameboard.randomNumberColumn(), "easy", bot1);
@@ -71,11 +71,11 @@ public class runGame {
 
         //Start Werteverteilung des Roboters
         System.out.println("Alle Werte deines Roboters sind zum Initial mit dem Wert 1 festgesetzt. Bitte verteile nachfolgend " +
-                "die [" + gewaehlterAvatar.skillpoints + "] zur Verfügung stehenden Skillpunkte um dir deinen Robotor zu Individualisieren. ");
+                "die [" + gewaehlterAvatar.getSkillpoints() + "] zur Verfügung stehenden Skillpunkte um dir deinen Robotor zu Individualisieren. ");
         gewaehlterAvatar.printStats();
 
         //Verteilung der Skillpunkte bis keine mehr übrig sind
-        while (gewaehlterAvatar.skillpoints > 0) {
+        while (gewaehlterAvatar.getSkillpoints() > 0) {
             gewaehlterAvatar.changeStats();
         }
         //Ende Werteverteilung des Rooboters
@@ -83,20 +83,19 @@ public class runGame {
 
         
         //Beginn Part Spielfeldinitialisierung
-        Game game = new Game(' ', ' ', true, false);
         System.out.println("Das Spielfeld wird für das Spiel vorbereitet.\n");
-        java.lang.Thread.sleep(2000); //Künstliche Pause
+        //java.lang.Thread.sleep(2000); //Künstliche Pause
 
         //Initialisierung leere Felder, Barrieren, Roboterpositionen und Ausgabe des Spielfeldes
         board.fillStartboard();
         board.placeBarrier();
-        board.placeRobots(gewaehlterAvatar.symbol, gegner.robot.symbol);
+        board.placeRobots(gewaehlterAvatar.getSymbol(), gegner.getRobot().getSymbol(), player.getPosZeile(), player.getPosSpalte(), gegner.getPosZeile(), gegner.getPosSpalte());
         board.printGameBoard();
 
         //Position des Spielers und Bots beim Start schriftlich für den Spieler
-        System.out.println("\nDein Roboter befindet sich zu Beginn in dem Feld (" + (Player.posZeile + 1) + "|" + (Player.posSpalte + 1) + ").");
-        System.out.println("Dein Gegner " + gegner.name + " befindet sich zu Beginn in dem Feld (" + (KI.posZeile + 1) + "|"
-                + (KI.posSpalte + 1) + "). \nViel Spaß beim Spielen!");
+        System.out.println("\nDein Roboter befindet sich zu Beginn in dem Feld (" + (player.getPosZeile() + 1) + "|" + (player.getPosSpalte() + 1) + ").");
+        System.out.println("Dein Gegner " + gegner.getName() + " befindet sich zu Beginn in dem Feld (" + (gegner.getPosZeile() + 1) + "|"
+                + (gegner.getPosSpalte() + 1) + "). \nViel Spaß beim Spielen!");
         //Ende Part Spielfeldinitialisierung
 
 
@@ -106,45 +105,49 @@ public class runGame {
          */
         //Start Part Spiel
         //Bishergie Gewinnbedingung nur Erreichung des Gegnerfeldes
-        while (Player.posZeile != KI.posZeile || Player.posSpalte != KI.posSpalte) {
+        while (player.getPosZeile() != gegner.getPosZeile() || player.getPosSpalte() != gegner.getPosSpalte()) {
             //Spielerzug
-            while (Game.spielerZug) {
-                System.out.println("\n" + player.name + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
+            while (game.getSpielerZug()) {
+                System.out.println("\n" + player.getName() + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
                         ", möchtest du auf der aktuellen Position verweilen gebe eine 5 ein.");
-                Game.zugEingabe = sc.next().charAt(0);
-                if (game.isMoveValid(Player.posZeile, Player.posSpalte, Game.zugEingabe)) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
-                    Player.move(Game.zugEingabe, player.robot.symbol, Player.posZeile, Player.posSpalte, Game.spielerZug, Game.gegnerZug);
-                    System.out.println("Dein Roboter befindet sich auf dem Feld (" + (Player.posZeile + 1) + "|" + (Player.posSpalte + 1) + ").");
+                char zugEingabe = sc.next().charAt(0);
+                game.setZugEingabe(zugEingabe);
+                //TODO: MoveCounter anhand der mobility des Roboters, move solange bis Counter = 0
+                if (game.isMoveValid(player.getPosZeile(), player.getPosSpalte(), game.getZugEingabe())) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
+                    player.move(game.getZugEingabe(), player.getRobot().getSymbol(), player.getPosZeile(), player.getPosSpalte(), game.getSpielerZug(), game.getGegnerZug());
+                    System.out.println("Dein Roboter befindet sich auf dem Feld (" + (player.getPosZeile() + 1) + "|" + (player.getPosSpalte() + 1) + ").");
                 } else {
                     System.out.println("Dieser Zug würde aus dem Spielfeld führen oder eine Barriere ist im Weg, bitte versuche es erneut. ");
                 }
             }
 
             //Ausgabe des Spielerzuges
-            if (Objects.equals(gewaehlterAvatar.symbol, avatar1)) {
+            if (Objects.equals(gewaehlterAvatar.getSymbol(), avatar1)) {
                 System.out.println(ASCII_Arts.cyan + "\n Spielerzug \n" + ASCII_Arts.farbReset);
-            } else if (Objects.equals(gewaehlterAvatar.symbol, avatar2)) {
+            } else if (Objects.equals(gewaehlterAvatar.getSymbol(), avatar2)) {
                 System.out.println(ASCII_Arts.purple + "\n Spielerzug \n" + ASCII_Arts.farbReset);
             }
             board.printGameBoard();
 
             //Spieler überschreibt den Gegner -> Spielersieg
-            if (Player.posZeile == KI.posZeile && Player.posSpalte == KI.posSpalte) {
+            if (player.getPosZeile() == gegner.getPosZeile() && player.getPosSpalte() == gegner.getPosSpalte()) {
                 System.out.println("\nGlückwunsch! Du hast deinen Gegner besiegt!");
             } else {
                 //Gegnerzug
-                while (Game.gegnerZug) {
+                while (game.getGegnerZug()) {
                     System.out.println("\nDer Gegner ist am Zug und macht seine Eingabe...");
-                    java.lang.Thread.sleep(1500); //Künstliche Pause
-                    Game.gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
-                    System.out.println("Der Gegner hat die Eingabe " + Game.gegnerZugEingabe + " gewählt");
-                    if (game.isMoveValid(KI.posZeile, KI.posSpalte, Game.gegnerZugEingabe)) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
-                        KI.move(Game.gegnerZugEingabe, KI.posZeile, KI.posSpalte, gegner.robot.symbol, Game.spielerZug, Game.gegnerZug);
-                        System.out.println("Der Gegner " + gegner.name + " befindet sich auf dem Feld (" + (KI.posZeile + 1) + "|"
-                                + (KI.posSpalte + 1) + ").");
+                    //java.lang.Thread.sleep(1500); //Künstliche Pause
+                    char gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
+                    game.setGegnerZugEingabe(gegnerZugEingabe);
+                    System.out.println("Der Gegner hat die Eingabe " + game.getGegnerZugEingabe() + " gewählt");
+                    if (game.isMoveValid(gegner.getPosZeile(), gegner.getPosSpalte(), game.getGegnerZugEingabe())) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
+                        gegner.move(game.getGegnerZugEingabe(), gegner.getPosZeile(), gegner.getPosSpalte(), gegner.getRobot().getSymbol(), game.getSpielerZug(), game.getGegnerZug());
+                        System.out.println("Der Gegner " + gegner.getName() + " befindet sich auf dem Feld (" + (gegner.getPosZeile() + 1) + "|"
+                                + (gegner.getPosSpalte() + 1) + ").");
                     } else {
                         System.out.println("Die Eingabe des Gegners würde aus dem Spielfeld führen oder eine Barriere ist im Weg, der Gegner versucht es erneut.");
-                        Game.gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
+                        gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
+                        game.setGegnerZugEingabe(gegnerZugEingabe);
                     }
                 }
 
@@ -153,7 +156,7 @@ public class runGame {
                 board.printGameBoard();
 
                 //Gegner überschreibt Spieler -> Gegnersieg
-                if (KI.posZeile == Player.posZeile && KI.posSpalte == Player.posSpalte) {
+                if (gegner.getPosZeile() == player.getPosZeile() && gegner.getPosSpalte() == player.getPosSpalte()) {
                     System.out.println("Schade, du hast verloren!");
                 }
             }

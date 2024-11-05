@@ -1,17 +1,31 @@
 import java.util.Random;
 
 public class Gameboard {
-    static int rows;
-    static int cols;
-    static String[][] gameboard;
+    private final int rows;
+    private final int cols;
+    private final String[][] gameboard;
 
 
     //Konstruktor
     public Gameboard(int rows, int cols) {
-        Gameboard.rows = rows;
-        Gameboard.cols = cols;
+        this.rows = rows;
+        this.cols = cols;
         gameboard = new String[rows][cols];
     }
+
+    //Getter
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public  String[][] getGameboard() {
+        return gameboard;
+    }
+
 
     //Methode für zufällige Zeile
     public static int randomNumberRow() {
@@ -45,17 +59,17 @@ public class Gameboard {
                 if (waterCounter < Barrier.randomBarrierMax() && gameboard[i][j].equals(" [ ]")) {
                     Barrier waterbarrier = new Barrier("water", ASCII_Arts.blau + "≋" + ASCII_Arts.farbReset, 15, randomNumberRow()
                             , randomNumberColumn());
-                    gameboard[waterbarrier.posZeile][waterbarrier.posSpalte] = " [" + waterbarrier.symbol + "]";
+                    gameboard[waterbarrier.getPosZeile()][waterbarrier.getPosSpalte()] = " [" + waterbarrier.getSymbol() + "]";
                     waterCounter++;
                 } else if (stoneCounter < Barrier.randomBarrierMax() && gameboard[i][j].equals(" [ ]")) {
                     Barrier stoneBarrier = new Barrier("stone", "▲", 20, randomNumberRow()
                             , randomNumberColumn());
-                    gameboard[stoneBarrier.posZeile][stoneBarrier.posSpalte] = " [" + stoneBarrier.symbol + "]";
+                    gameboard[stoneBarrier.getPosZeile()][stoneBarrier.getPosSpalte()] = " [" + stoneBarrier.getSymbol() + "]";
                     stoneCounter++;
                 } else if (plantCounter < Barrier.randomBarrierMax() && gameboard[i][j].equals(" [ ]")) {
                     Barrier plantBarrier = new Barrier("plant", ASCII_Arts.gruen + "♣" + ASCII_Arts.farbReset, 10, randomNumberRow()
                             , randomNumberColumn());
-                    gameboard[plantBarrier.posZeile][plantBarrier.posSpalte] = " [" + plantBarrier.symbol + "]";
+                    gameboard[plantBarrier.getPosZeile()][plantBarrier.getPosSpalte()] = " [" + plantBarrier.getSymbol() + "]";
                     plantCounter++;
                 }
             }
@@ -63,12 +77,12 @@ public class Gameboard {
     }
 
     //Platziere Spieler und Gegner auf dem Spielfeld
-    public void placeRobots(String gewaehlterAvatar, String gegner) {
+    public void placeRobots(String gewaehlterAvatar, String gegner, int playerPosZeile, int playerPosSpalte, int gegnerPosZeile, int gegnerPosSpalte) {
         for (int i = 0; i < gameboard.length; i++) {
             for (int j = 0; j < gameboard[i].length; j++) {
-                if (i == Player.posZeile && j == Player.posSpalte) {
+                if (i == playerPosZeile && j == playerPosSpalte) {
                     gameboard[i][j] = " [" + gewaehlterAvatar + "]";
-                } else if (i == KI.posZeile && j == KI.posSpalte) {
+                } else if (i == gegnerPosZeile && j == gegnerPosSpalte) {
                     if (!gameboard[i][j].equals(" [" + gewaehlterAvatar + "]")) {
                         gameboard[i][j] = " [" + gegner + "]";
                     } else {
