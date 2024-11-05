@@ -71,43 +71,6 @@ public class Robot {
         return name;
     }
 
-    //Setter
-    public void setSkillpoints(int skillpoints) {
-        this.skillpoints = skillpoints;
-    }
-
-    public void setLife(int life) {
-        this.life = life;
-    }
-
-    public void setEnergy(int energy) {
-        this.energy = energy;
-    }
-
-    public void setShield(int shield) {
-        this.shield = shield;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-    public void setRange(int range) {
-        this.range = range;
-    }
-
-    public void setDamageZone(int damageZone) {
-        this.damageZone = damageZone;
-    }
-
-    public void setAccuracy(int accuracy) {
-        this.accuracy = accuracy;
-    }
-
-    public void setMobility(int mobility) {
-        this.mobility = mobility;
-    }
-
     public int getAttribute(int attributeInput) {
         if (attributeInput == 1) {
             return this.life;
@@ -122,6 +85,8 @@ public class Robot {
         } else if (attributeInput == 6) {
             return this.range;
         } else if (attributeInput == 7) {
+            return this.accuracy;
+        } else if (attributeInput == 8) {
             return this.mobility;
         } else {
             return 0;
@@ -135,7 +100,8 @@ public class Robot {
         System.out.println("4. Schaden: " + damage);
         System.out.println("5. Schadenreichweite: " + damageZone);
         System.out.println("6. Trefferreichweite: " + range);
-        System.out.println("7. Treffsicherheit: " + mobility);
+        System.out.println("7. Treffsicherheit: " + accuracy);
+        System.out.println("8. Bewegungsrate: " + mobility);
         System.out.println("\nVerbleibende Anzahl an Skillpunkten: " + skillpoints + "\n");
     }
 
@@ -145,7 +111,7 @@ public class Robot {
         int attributAuswahl = runGame.sc.nextInt();
 
         //Wiederholung der Eingabe Attributauswahl falls diese falsch ist
-        while (attributAuswahl < 1 || attributAuswahl > 7) {
+        while (attributAuswahl < 1 || attributAuswahl > 8) {
             System.out.println("Fehlerhafte Eingabe, bitte versuchen Sie es erneut: ");
             attributAuswahl = runGame.sc.nextInt();
         }
@@ -224,6 +190,9 @@ public class Robot {
         } else if (attribute == 7) {
             accuracy = accuracy + numberToIncrease;
             skillpoints = skillpoints - numberToIncrease;
+        } else if (attribute == 8) {
+            mobility = mobility + numberToIncrease;
+            skillpoints = skillpoints - numberToIncrease;
         } else {
             System.out.println("Fehler bei der Zuweisung der Skillpunkte");
         }
@@ -250,6 +219,9 @@ public class Robot {
             skillpoints = skillpoints + numberToDecrease;
         } else if (attribute == 7) {
             accuracy = accuracy - numberToDecrease;
+            skillpoints = skillpoints + numberToDecrease;
+        } else if (attribute == 8) {
+            mobility = mobility - numberToDecrease;
             skillpoints = skillpoints + numberToDecrease;
         } else {
             System.out.println("Fehler bei der Zuweisung der Skillpunkte");
