@@ -108,16 +108,20 @@ public class runGame {
         while (player.getPosZeile() != gegner.getPosZeile() || player.getPosSpalte() != gegner.getPosSpalte()) {
             //Spielerzug
             while (game.getSpielerZug()) {
-                System.out.println("\n" + player.getName() + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
-                        ", möchtest du auf der aktuellen Position verweilen gebe eine 5 ein.");
-                char zugEingabe = sc.next().charAt(0);
-                game.setZugEingabe(zugEingabe);
-                //TODO: MoveCounter anhand der mobility des Roboters, move solange bis Counter = 0
-                if (game.isMoveValid(player.getPosZeile(), player.getPosSpalte(), game.getZugEingabe())) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
-                    player.move(game.getZugEingabe(), player.getRobot().getSymbol(), player.getPosZeile(), player.getPosSpalte(), game.getSpielerZug(), game.getGegnerZug());
-                    System.out.println("Dein Roboter befindet sich auf dem Feld (" + (player.getPosZeile() + 1) + "|" + (player.getPosSpalte() + 1) + ").");
-                } else {
-                    System.out.println("Dieser Zug würde aus dem Spielfeld führen oder eine Barriere ist im Weg, bitte versuche es erneut. ");
+                int playerMoveCounter = player.getRobot().getMobility();
+                while (playerMoveCounter >= 1) {
+                    System.out.println("\n" + player.getName() + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
+                            ", möchtest du auf der aktuellen Position verweilen gebe eine 5 ein.");
+                    char zugEingabe = sc.next().charAt(0);
+                    game.setZugEingabe(zugEingabe);
+                    //TODO: MoveCounter anhand der mobility des Roboters, move solange bis Counter = 0
+                    if (game.isMoveValid(player.getPosZeile(), player.getPosSpalte(), game.getZugEingabe())) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
+                        player.move(game.getZugEingabe(), player.getRobot().getSymbol(), player.getPosZeile(), player.getPosSpalte(), game.getSpielerZug(), game.getGegnerZug());
+                        System.out.println("Dein Roboter befindet sich auf dem Feld (" + (player.getPosZeile() + 1) + "|" + (player.getPosSpalte() + 1) + ").");
+                        playerMoveCounter--;
+                    } else {
+                        System.out.println("Dieser Zug würde aus dem Spielfeld führen oder eine Barriere ist im Weg, bitte versuche es erneut. ");
+                    }
                 }
             }
 
@@ -135,19 +139,23 @@ public class runGame {
             } else {
                 //Gegnerzug
                 while (game.getGegnerZug()) {
-                    System.out.println("\nDer Gegner ist am Zug und macht seine Eingabe...");
-                    //java.lang.Thread.sleep(1500); //Künstliche Pause
-                    char gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
-                    game.setGegnerZugEingabe(gegnerZugEingabe);
-                    System.out.println("Der Gegner hat die Eingabe " + game.getGegnerZugEingabe() + " gewählt");
-                    if (game.isMoveValid(gegner.getPosZeile(), gegner.getPosSpalte(), game.getGegnerZugEingabe())) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
-                        gegner.move(game.getGegnerZugEingabe(), gegner.getPosZeile(), gegner.getPosSpalte(), gegner.getRobot().getSymbol(), game.getSpielerZug(), game.getGegnerZug());
-                        System.out.println("Der Gegner " + gegner.getName() + " befindet sich auf dem Feld (" + (gegner.getPosZeile() + 1) + "|"
-                                + (gegner.getPosSpalte() + 1) + ").");
-                    } else {
-                        System.out.println("Die Eingabe des Gegners würde aus dem Spielfeld führen oder eine Barriere ist im Weg, der Gegner versucht es erneut.");
-                        gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
+                    int gegnerMoveCounter = gegner.getRobot().getMobility();
+                    while (gegnerMoveCounter >= 1) {
+                        System.out.println("\nDer Gegner ist am Zug und macht seine Eingabe...");
+                        //java.lang.Thread.sleep(1500); //Künstliche Pause
+                        char gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
                         game.setGegnerZugEingabe(gegnerZugEingabe);
+                        System.out.println("Der Gegner hat die Eingabe " + game.getGegnerZugEingabe() + " gewählt");
+                        if (game.isMoveValid(gegner.getPosZeile(), gegner.getPosSpalte(), game.getGegnerZugEingabe())) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
+                            gegner.move(game.getGegnerZugEingabe(), gegner.getPosZeile(), gegner.getPosSpalte(), gegner.getRobot().getSymbol(), game.getSpielerZug(), game.getGegnerZug());
+                            System.out.println("Der Gegner " + gegner.getName() + " befindet sich auf dem Feld (" + (gegner.getPosZeile() + 1) + "|"
+                                    + (gegner.getPosSpalte() + 1) + ").");
+                            gegnerMoveCounter--;
+                        } else {
+                            System.out.println("Die Eingabe des Gegners würde aus dem Spielfeld führen oder eine Barriere ist im Weg, der Gegner versucht es erneut.");
+                            gegnerZugEingabe = KI.randomGegnerzug(); //TODO: Übergabe difficulty für später
+                            game.setGegnerZugEingabe(gegnerZugEingabe);
+                        }
                     }
                 }
 
