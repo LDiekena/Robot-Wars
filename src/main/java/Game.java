@@ -83,40 +83,40 @@ public class Game {
         return true;
     }
 
-    //Methode zur Abfrage ob Roboter in Angriffsreichweite ist
-    public boolean inRange(KI gegner, Player player) {
-        //Spieler kann Gegner erreichen (horizontal und vertikal)
-        //TODO: Betrachtung bislang nur genau die Reichweite erreicht, Implementierung auch für den Fall das man näher dran ist!
-        if (player.getPosZeile() + player.getRobot().getRange() == gegner.getPosZeile() || player.getPosSpalte() + player.getRobot().getRange() == gegner.getPosSpalte()
-        || player.getPosZeile() - player.getRobot().getRange() == gegner.getPosZeile() || player.getPosSpalte() - player.getRobot().getRange() == gegner.getPosSpalte()) {
+    //Methode Abfrage ob der Spieler den Gegner angreifen kann
+    public boolean playerCanAttack (Player player, KI gegner) {
+        int playerRightMaxRange = player.getPosSpalte() + player.getRobot().getRange();
+        int playerDownMaxRange = player.getPosZeile() + player.getRobot().getRange();
+        int playerLeftMaxRange = player.getPosSpalte() - player.getRobot().getRange();
+        int playerUpMaxRange = player.getPosZeile() - player.getRobot().getRange();
+
+        if (gegner.getPosSpalte() <= playerRightMaxRange && gegner.getPosSpalte() > player.getPosSpalte()
+                || gegner.getPosZeile() <= playerDownMaxRange && gegner.getPosZeile() > player.getPosZeile()
+                || gegner.getPosSpalte() >= playerLeftMaxRange && gegner.getPosSpalte() < player.getPosSpalte()
+                || gegner.getPosZeile() >= playerUpMaxRange && gegner.getPosZeile() < player.getPosZeile()) {
             return true;
-        // Gegner kann Spieler erreichen (horizontal und vertikal)
-        } else if (gegner.getPosZeile() + gegner.getRobot().getRange() == player.getPosZeile() || gegner.getPosSpalte() + gegner.getRobot().getRange() == player.getPosSpalte()
-        || gegner.getPosZeile() - gegner.getRobot().getRange() == player.getPosZeile() || gegner.getPosSpalte() - gegner.getRobot().getRange() == player.getPosSpalte()) {
-            return true;
-        //Spieler kann Gegner erreichen (diagonal)
-        } else if (player.getPosZeile() + player.getRobot().getRange() == gegner.getPosZeile() && player.getPosSpalte() + player.getRobot().getRange() <= gegner.getPosSpalte()
-                || player.getPosZeile() + player.getRobot().getRange() == gegner.getPosZeile() && player.getPosSpalte() - player.getRobot().getRange() <= gegner.getPosSpalte()
-                || player.getPosZeile() - player.getRobot().getRange() == gegner.getPosZeile() && player.getPosSpalte() - player.getRobot().getRange() <= gegner.getPosSpalte()
-                || player.getPosZeile() - player.getRobot().getRange() == gegner.getPosZeile() && player.getPosSpalte() + player.getRobot().getRange() <= gegner.getPosSpalte()) {
-            return true;
-        //Gegner kann Spieler erreichen (diagonal)
-        } else if (gegner.getPosZeile() + gegner.getRobot().getRange() == player.getPosZeile() && gegner.getPosSpalte() + gegner.getRobot().getRange() == player.getPosSpalte()
-                || gegner.getPosZeile() + gegner.getRobot().getRange() == player.getPosZeile() && gegner.getPosSpalte() - gegner.getRobot().getRange() == player.getPosSpalte()
-                || gegner.getPosZeile() - gegner.getRobot().getRange() == player.getPosZeile() && gegner.getPosSpalte() - gegner.getRobot().getRange() == player.getPosSpalte()
-                || gegner.getPosZeile() - gegner.getRobot().getRange() == player.getPosZeile() && gegner.getPosSpalte() + gegner.getRobot().getRange() == player.getPosSpalte()) {
-            return true;
-        } else if (player.getPosZeile() + player.getRobot().getRange() > runGame.board.getRows()
-                || player.getPosSpalte() + player.getRobot().getRange() > runGame.board.getCols()
-                || gegner.getPosZeile() + gegner.getRobot().getRange() > runGame.board.getRows()
-                || gegner.getPosSpalte() + gegner.getRobot().getRange() > runGame.board.getCols()
-                || player.getPosZeile() - player.getRobot().getRange() < runGame.board.getRows()
-                || player.getPosSpalte() - player.getRobot().getRange() < runGame.board.getCols()
-                || gegner.getPosZeile() - gegner.getRobot().getRange() < runGame.board.getRows()
-                || gegner.getPosSpalte() - gegner.getRobot().getRange() < runGame.board.getCols()) {
+        } else {
             return false;
         }
-        return false;
+    }
+
+    //Methode Abfrage ob der Gegnner den Spieler angreifen kann
+    public boolean gegnerCanAttack(KI gegner, Player player) {
+
+        int gegnerRightMaxRange = gegner.getPosSpalte() + gegner.getRobot().getRange();
+        int gegnerDownMaxRange = gegner.getPosZeile() + gegner.getRobot().getRange();
+        int gegnerLeftMaxRange = gegner.getPosSpalte() - gegner.getRobot().getRange();
+        int gegnerUpMaxRange = gegner.getPosZeile() - gegner.getRobot().getRange();
+
+        // Gegner kann Spieler erreichen (horizontal und vertikal)
+        if (player.getPosSpalte() <= gegnerRightMaxRange && player.getPosSpalte() > gegner.getPosSpalte()
+                || player.getPosZeile() <= gegnerDownMaxRange && player.getPosZeile() > gegner.getPosZeile()
+                || player.getPosSpalte() >= gegnerLeftMaxRange && player.getPosSpalte() < gegner.getPosSpalte()
+                || player.getPosZeile() >= gegnerUpMaxRange && player.getPosZeile() < gegner.getPosZeile()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

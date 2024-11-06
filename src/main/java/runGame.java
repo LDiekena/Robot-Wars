@@ -11,7 +11,7 @@ public class runGame {
             10, 5, 1, 1, 1, 1, 1, 1, 1, "", 5);
     //KI Robot erstmal mit fester Skillverteilung, TODO: später eventuell noch random verteilt
     static Robot bot1 = new Robot("Bot 1", asciiArts.red + "¥" + asciiArts.farbReset,
-            0, 7, 2, 2, 3, 1, 1, 3, 3, "", 35);
+            0, 7, 2, 2, 3, 1, 1, 3, 1, "", 35);
 
     //Scanner
     public static Scanner sc = new Scanner(System.in);
@@ -99,13 +99,9 @@ public class runGame {
                 + (gegner.getPosSpalte() + 1) + "). \nViel Spaß beim Spielen!");
         //Ende Part Spielfeldinitialisierung
 
-        if(game.inRange(gegner, player)) {
-            System.out.println("Gegner befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
-        }
-        //TODO: Kampf oder bewegen implementieren
+
 
         //Start Part Spiel
-        //TODO: Abfrage Spieler in Angriffsreichweite des Gegners und je nachdem Start Angriff oder Spielerzug
         //Bishergie Gewinnbedingung nur Erreichung des Gegnerfeldes
         while (player.getPosZeile() != gegner.getPosZeile() || player.getPosSpalte() != gegner.getPosSpalte()) {
             //Spielerzug
@@ -121,7 +117,7 @@ public class runGame {
                         System.out.println("Dein Roboter befindet sich auf dem Feld (" + (player.getPosZeile() + 1) + "|" + (player.getPosSpalte() + 1) + ").");
                         playerMoveCounter--;
 
-                        //Ausgabe des Spielerzuges
+                        //Optische Ausgabe des Spielerzuges
                         if (Objects.equals(gewaehlterAvatar.getSymbol(), avatar1)) {
                             System.out.println(asciiArts.cyan + "\n Spielerzug \n" + asciiArts.farbReset);
                         } else if (Objects.equals(gewaehlterAvatar.getSymbol(), avatar2)) {
@@ -133,15 +129,13 @@ public class runGame {
                         System.out.println("Dieser Zug würde aus dem Spielfeld führen oder eine Barriere ist im Weg, bitte versuche es erneut. ");
                     }
                 }
+                //Abfrage ob Gegner in Angriffsreichweite ist (nach Beendigung der Bewegung)
+                if(game.playerCanAttack(player, gegner)) {
+                    System.out.println("Gegner befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
+                }
+                //TODO: Kampf oder bewegen implementieren
 
             }
-
-            if(game.inRange(gegner, player)) {
-                System.out.println("Spieler befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
-            }
-            //TODO: Kampf oder bewegen implementieren
-
-            //TODO: Abfrage Gegner in Angriffsdistanz und je nachdem Start Angriff oder Gegnerzug
 
             //Spieler überschreibt den Gegner -> Spielersieg
             if (player.getPosZeile() == gegner.getPosZeile() && player.getPosSpalte() == gegner.getPosSpalte()) {
@@ -172,6 +166,12 @@ public class runGame {
                             game.setGegnerZugEingabe(gegnerZugEingabe);
                         }
                     }
+                    //Abfrage ob Spieler in Angriffsreichweite ist (nach Beendigung der Bewegung)
+                    if(game.gegnerCanAttack(gegner, player)) {
+                        System.out.println("Spieler befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
+                    }
+
+                    //TODO: Kampf oder bewegen implementieren
                 }
 
                 //Gegner überschreibt Spieler -> Gegnersieg
