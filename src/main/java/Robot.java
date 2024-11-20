@@ -84,8 +84,6 @@ public class Robot {
     }
 
     //Setter
-
-
     public void setHealth(int health) {
         this.health = health;
     }

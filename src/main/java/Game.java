@@ -47,10 +47,6 @@ public class Game {
         this.gegnerZug = gegnerZug;
     }
 
-    public void gameRound() {
-        //TODO: Aus main hier rüber?
-    }
-
     //Methode Zuggültigkeit
     public boolean isMoveValid(int posZeile, int posSpalte, char zugEingabe) {
         if (posZeile == 9 && zugEingabe == '2') {
@@ -84,7 +80,7 @@ public class Game {
     }
 
     //Methode Abfrage ob der Spieler den Gegner angreifen kann
-    public boolean playerCanAttack (Player player, KI gegner) {
+    public boolean playerCanAttack(Player player, KI gegner) {
         int playerRightMaxRange = player.getPosSpalte() + player.getRobot().getRange();
         int playerDownMaxRange = player.getPosZeile() + player.getRobot().getRange();
         int playerLeftMaxRange = player.getPosSpalte() - player.getRobot().getRange();

@@ -16,14 +16,17 @@ public class Gameboard {
 
     //Getter
     public int getRows() {
+
         return rows;
     }
 
     public int getCols() {
+
         return cols;
     }
 
     public  String[][] getGameboard() {
+
         return gameboard;
     }
 

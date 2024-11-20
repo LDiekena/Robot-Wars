@@ -6,9 +6,9 @@ public class runGame {
     static Gameboard board = new Gameboard(10, 15);
     static Game game = new Game(' ', ' ', true, false);
     static Robot robot1 = new Robot("Roboter Nr. 1", asciiArts.cyan + "§" + asciiArts.farbReset,
-            10, 5, 1, 1, 1, 1, 1, 1, 1, "", 5);
+            10, 1, 1, 1, 1, 1, 1, 1, 1, "", 5);
     static Robot robot2 = new Robot("Roboter Nr. 2", asciiArts.purple + "∆" + asciiArts.farbReset,
-            10, 5, 1, 1, 1, 1, 1, 1, 1, "", 5);
+            10, 1, 1, 1, 1, 1, 1, 1, 1, "", 5);
     //KI Robot erstmal mit fester Skillverteilung, TODO: später eventuell noch random verteilt
     static Robot bot1 = new Robot("Bot 1", asciiArts.red + "¥" + asciiArts.farbReset,
             0, 7, 2, 2, 3, 1, 1, 3, 1, "", 35);
@@ -24,7 +24,7 @@ public class runGame {
     public static void main(String[] args) throws InterruptedException {
 
         //Beginn Part Begrüßung und Avatarauswahl
-        //Ausgabe Willkomensintro für den Spieler
+        //Ausgabe Willkomensintro für den Spieler 
         System.out.println("      Herzlich willkommen bei Robot Wars!");
         System.out.println(asciiArts.wilkommenASCII);
 
@@ -52,6 +52,7 @@ public class runGame {
         //Ende Part Begrüßung und Avatarauswahl
 
 
+
         //Beginn Part Spieler- & Gegnerinitialisierung
         if (wahlRobot == 1) {
             gewaehlterAvatar = robot1;
@@ -69,6 +70,7 @@ public class runGame {
         //Ende Part Spieler- & Gegnerinitialisierung
 
 
+
         //Start Werteverteilung des Roboters
         System.out.println("Alle Werte deines Roboters sind zum Initial mit dem Wert 1 festgesetzt. Bitte verteile nachfolgend " +
                 "die [" + gewaehlterAvatar.getSkillpoints() + "] zur Verfügung stehenden Skillpunkte um dir deinen Robotor zu Individualisieren. ");
@@ -78,7 +80,7 @@ public class runGame {
         while (gewaehlterAvatar.getSkillpoints() > 0) {
             gewaehlterAvatar.changeStats();
         }
-        //Ende Werteverteilung des Rooboters
+        //Ende Werteverteilung des Roboters
 
 
         
@@ -134,7 +136,6 @@ public class runGame {
                     System.out.println("Gegner befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
                 }
                 //TODO: Kampf oder bewegen implementieren
-
             }
 
             //Spieler überschreibt den Gegner -> Spielersieg
