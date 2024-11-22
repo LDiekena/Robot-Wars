@@ -39,10 +39,10 @@ public class GameController {
                         playerMoveCounter--;
 
                         //Optische Ausgabe des Spielerzuges
-                        if (Objects.equals(player.getRobotModel().getSymbol(), "[ " + gameView.cyan + player.getRobotModel().getSymbol() + gameView.farbReset + " ]")) {
+                        if (Objects.equals(player.getRobotModel().getSymbol(), " [" + gameView.cyan + player.getRobotModel().getSymbol() + gameView.farbReset + "]")) {
                             gameView.printPlayerTurn(1);
 
-                        } else if (Objects.equals(player.getRobotModel().getSymbol(), "[ " + gameView.purple + player.getRobotModel().getSymbol() + gameView.farbReset + " ]")) {
+                        } else if (Objects.equals(player.getRobotModel().getSymbol(), " [" + gameView.purple + player.getRobotModel().getSymbol() + gameView.farbReset + "]")) {
                             gameView.printPlayerTurn(2);
                         }
 

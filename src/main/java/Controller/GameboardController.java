@@ -69,10 +69,18 @@ public class GameboardController {
             for (int j = 0; j < gameboard[i].length; j++) {
                 if (i == player.getPosZeile() && j == player.getPosSpalte()) {
                     gameboard[i][j] = " [" + player.getRobotModel().getSymbol() + "]";
-                } else if (i == enemy.getPosZeile() && j == enemy.getPosSpalte()) {
+                }
+            }
+        }
+
+        for (int i = 0; i < gameboard.length; i++) {
+            for (int j = 0; j < gameboard[i].length; j++) {
+                if (i == enemy.getPosZeile() && j == enemy.getPosSpalte()) {
                     if (!gameboard[i][j].equals(" [" + player.getRobotModel().getSymbol() + "]")) {
                         gameboard[i][j] = " [" + enemy.getRobotModel().getSymbol() + "]";
                     } else {
+                        enemy.setPosZeile(i + 1);
+                        enemy.setPosSpalte(j + 1);
                         gameboard[i + 1][j + 1] = " [" + enemy.getRobotModel().getSymbol() + "]";
                         //TODO: Randomize neue Position
                     }

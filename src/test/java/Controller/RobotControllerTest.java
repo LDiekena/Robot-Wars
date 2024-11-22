@@ -1,6 +1,8 @@
+package Controller;
+
 import org.junit.jupiter.api.Test;
 
- class RobotTest {
+ class RobotControllerTest {
      @Test
     public void testGetAttribute() {
 
