@@ -3,6 +3,7 @@ package Controller;
 import Model.GameModel;
 import Model.GameboardModel;
 import Model.KIModel;
+import Model.PlayerModel;
 
 import java.util.Random;
 
@@ -27,8 +28,6 @@ public class KIController {
         return gegnerzug;
     }
 
-
-    //TODO: ggf Alternative Bewegung anhand der Entscheidung des Spielers
     //Methode zum Bewegen des Bots
     public void move(char gegnerZugEingabe, KIModel enemy, boolean spielerZug, boolean gegnerZug, GameboardModel gameboard, GameModel game) {
         gameboard.getGameboard()[enemy.getPosZeile()][enemy.getPosSpalte()] = " [ ]";
@@ -57,5 +56,10 @@ public class KIController {
             game.setSpielerZug(true);
             game.setGegnerZug(false);
         }
+    }
+
+    //Methode zum Angreifen von der KI
+    public void attack(KIModel enemy, PlayerModel player) {
+        player.getRobotModel().setHealth(player.getRobotModel().getHealth() - enemy.getRobotModel().getDamage());
     }
 }

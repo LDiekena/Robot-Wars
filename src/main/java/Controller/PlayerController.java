@@ -2,6 +2,7 @@ package Controller;
 
 import Model.GameModel;
 import Model.GameboardModel;
+import Model.KIModel;
 import Model.PlayerModel;
 
 public class PlayerController {
@@ -34,5 +35,10 @@ public class PlayerController {
             game.setSpielerZug(false);
             game.setGegnerZug(true);
         }
+    }
+
+    //Methode zum Angreifen vom Spieler
+    public void attack(PlayerModel playerModel, KIModel enemy) {
+        enemy.getRobotModel().setHealth(enemy.getRobotModel().getHealth() - playerModel.getRobotModel().getDamage());
     }
 }

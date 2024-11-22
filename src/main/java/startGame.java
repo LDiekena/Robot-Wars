@@ -24,8 +24,8 @@ public class startGame {
         GameboardModel gameboard = new GameboardModel(10,15);
         GameModel game = new GameModel(' ',' ', true, false);
         RobotModel bot1 = new RobotModel("Bot 1", gameView.red + "¥" + gameView.farbReset,
-                0, 7, 2, 2, 3, 1, 1, 3, 1, "", 35);
-        RobotModel robot = new RobotModel(" ", " ", 10, 1, 1, 1, 1, 1, 1, 1, 1, "", 5);
+                0, 7, 2, 2, 3, 1, 1, 3, 1, 35);
+        RobotModel robot = new RobotModel(" ", " ", 10, 1, 1, 1, 1, 1, 1, 1, 1, 5);
         KIModel enemy = new KIModel("Bot 1", gameboardController.randomNumberRow(), gameboardController.randomNumberColumn(), "easy", bot1);
         PlayerModel player = new PlayerModel("", gameboardController.randomNumberRow(), gameboardController.randomNumberColumn(),0,0, robot);
 

@@ -22,8 +22,8 @@ public class GameController {
     }
 
     public void gameRound(PlayerModel player, KIModel enemy, GameboardModel gameboard, GameModel game, GameboardView gameboardView, GameView gameView, PlayerView playerView, KIView kiView, KIController kiController, PlayerController playerController) {
-        //Bishergie Gewinnbedingung nur Erreichung des Gegnerfeldes
-        while (player.getPosZeile() != enemy.getPosZeile() || player.getPosSpalte() != enemy.getPosSpalte()) {
+
+        while (player.getRobotModel().getHealth() >= 0 && enemy.getRobotModel().getHealth() >= 0) {
 
             //Spielerzug
             while (game.getSpielerZug()) {
@@ -54,13 +54,20 @@ public class GameController {
                 }
                 //Abfrage ob Gegner in Angriffsreichweite ist (nach Beendigung der Bewegung)
                 if(playerCanAttack(player, enemy)) {
-                    gameView.printEnemyInAttackRangeMessage();
+                    int playerAttackChoice = gameView.printEnemyInAttackRangeMessage();
+                    if(playerAttackChoice == 1) {
+                        playerController.attack(player, enemy);
+                        gameView.printPlayerAttackSuccessfullMessage(player, enemy);
+                    } else {
+                        //TODO: Bewegungszüge noch übrig, weitere Bewegung möglich noch nicht implementiert
+                        //TODO: Shield noch nicht implementiert
+                    }
                 }
-                //TODO: Kampf oder bewegen implementieren
+
             }
 
             //Spieler überschreibt den Gegner -> Spielersieg
-            if (player.getPosZeile() == enemy.getPosZeile() && player.getPosSpalte() == enemy.getPosSpalte()) {
+            if (enemy.getRobotModel().getHealth() <= 0) {
                 gameView.printWinner(1);
             } else {
 
@@ -95,13 +102,15 @@ public class GameController {
                     //Abfrage ob Spieler in Angriffsreichweite ist (nach Beendigung der Bewegung)
                     if(gegnerCanAttack(enemy, player)) {
                         gameView.printPlayerInAttackRangeMessage();
+                        kiController.attack(enemy, player);
+                        gameView.printEnemyAttackSuccessfullMessage(enemy, player);
                     }
 
                     //TODO: Kampf oder bewegen implementieren
                 }
 
                 //Gegner überschreibt Spieler -> Gegnersieg
-                if (enemy.getPosZeile() == player.getPosZeile() && enemy.getPosSpalte() == player.getPosSpalte()) {
+                if (player.getRobotModel().getHealth() <= 0) {
                     gameView.printWinner(2);
                 }
             }

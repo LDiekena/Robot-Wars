@@ -12,11 +12,10 @@ public class RobotModel {
     private int damageZone;
     private int accuracy;
     private int mobility;
-    private String status;
     private int health;
 
     //Konstruktor
-    public RobotModel(String name, String symbol, int skillpoints, int life, int energy, int shield, int damage, int range, int damageZone, int accuracy, int mobility, String status, int health) {
+    public RobotModel(String name, String symbol, int skillpoints, int life, int energy, int shield, int damage, int range, int damageZone, int accuracy, int mobility,  int health) {
         this.name = name;
         this.symbol = symbol;
         this.skillpoints = skillpoints;
@@ -28,7 +27,6 @@ public class RobotModel {
         this.damageZone = damageZone;
         this.accuracy = accuracy;
         this.mobility = mobility;
-        this.status = status;
         this.health = health;
     }
 
@@ -75,10 +73,6 @@ public class RobotModel {
 
     public String getName() {
         return name;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public int getHealth() {
@@ -134,7 +128,4 @@ public class RobotModel {
         this.health = health;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

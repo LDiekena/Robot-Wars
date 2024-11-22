@@ -160,12 +160,24 @@ public class GameView {
         System.out.println("Die Eingabe des Gegners würde aus dem Spielfeld führen oder eine Barriere ist im Weg, der Gegner versucht es erneut.");
     }
 
-    public void printEnemyInAttackRangeMessage() {
-        System.out.println("Gegner befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
+    public int printEnemyInAttackRangeMessage() {
+        System.out.println("Der Gegner befindet sich in Angriffsreichweite, möchtest du deinen Gegner angreifen (1) oder einen Schild aktivieren (2)? Bitte mache deine Eingabe:");
+        Scanner sc = new Scanner(System.in);
+        return sc.nextInt();
     }
 
-    public void printPlayerInAttackRangeMessage() {
-        System.out.println("Spieler befindet sich in Angriffsreichweite, Kampf kann gestartet werden.");
+    public void printPlayerAttackSuccessfullMessage(PlayerModel player, KIModel enemy) {
+        System.out.println("Du hast " + player.getRobotModel().getDamage() + "Schaden an deinem Gegner gemacht. Der Gegner hat nur noch " + enemy.getRobotModel().getHealth() +
+                "Leben übrig.");
+    }
+
+    public void printEnemyAttackSuccessfullMessage(KIModel enemy, PlayerModel player) {
+        System.out.println("Der Gegner hat " + enemy.getRobotModel().getDamage() + "Schaden an dem Spieler verursacht. Der Spieler hat nur noch " + player.getRobotModel().getHealth() +
+                "Leben übrig.");
+    }
+
+    public void printPlayerInAttackRangeMessage() {//TODO: Für später übergabe mit difficulty und dementsprechend Handlungswahl
+        System.out.println("Der Spieler befindet sich in Angriffsreichweite des Gegners. Der Gegner greift an.");
     }
 
     //Part Spielende
