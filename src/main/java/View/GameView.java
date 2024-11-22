@@ -1,11 +1,7 @@
 package View;
 
-import Controller.GameController;
 import Model.KIModel;
 import Model.PlayerModel;
-
-import java.awt.*;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class GameView {
@@ -15,6 +11,8 @@ public class GameView {
     public final String purple = "\u001B[35m";
     public final String gelb = "\u001B[33m";
     public final String red = "\u001B[31m";
+    public final String gruen = "\033[0;32m";
+    public final String blau = "\033[0;34m";
 
     //Part Spielintro
     //Ausgabe Introscreen
@@ -90,7 +88,6 @@ public class GameView {
 
         Scanner sc = new Scanner(System.in);
         return sc.nextInt();
-        //TODO: mit return dann abfrage GameController.validAvatarChoice();
     }
 
     //Ausgabe inkorrekte Eingabe Avatar
@@ -99,7 +96,6 @@ public class GameView {
                 " ein oder die 2 für Roboter Nr. 2!");
         Scanner sc = new Scanner(System.in);
         return sc.nextInt();
-        //TODO: mit return dann abfrage GameController.validAvatarChoice();
     }
 
     public void printErrorSetAvater() {

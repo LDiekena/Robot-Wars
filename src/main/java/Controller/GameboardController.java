@@ -4,6 +4,8 @@ import Model.GameboardModel;
 import Model.BarrierModel;
 import Model.KIModel;
 import Model.PlayerModel;
+import View.GameView;
+import View.GameboardView;
 
 import java.util.Random;
 
@@ -31,36 +33,35 @@ public class GameboardController {
         }
     }
 
-    /*
-    //Fülle leeres Spielfeld mit Barrieren
-    public void placeBarrier() {
+    //Methode zum Platzieren der Barrieren
+    public void placeBarrier(GameboardModel gameboard, BarrierController barrierController, GameView gameView) {
         int plantCounter = 0;
         int stoneCounter = 0;
         int waterCounter = 0;
 
         for (int i = 0; i < gameboard.getGameboard().length; i++) {
             for (int j = 0; j < gameboard.getGameboard()[i].length; j++) {
-                if (waterCounter < Barrier.randomBarrierMax() && gameboard.getGameboard()[i][j].equals(" [ ]")) {
-                    Barrier waterbarrier = new BarrierModel("water", asciiArts.blau + "≋" + asciiArts.farbReset, 15, randomNumberRow()
+                if (waterCounter < barrierController.randomBarrierMax() && gameboard.getGameboard()[i][j].equals(" [ ]")) {
+                    BarrierModel waterBarrier = new BarrierModel("water", gameView.blau + "≋" + gameView.farbReset, 15, randomNumberRow()
                             , randomNumberColumn());
-                    gameboard[waterbarrier.getPosZeile()][waterbarrier.getPosSpalte()] = " [" + waterbarrier.getSymbol() + "]";
+                    gameboard.getGameboard()[waterBarrier.getPosZeile()][waterBarrier.getPosSpalte()] = " [" + waterBarrier.getSymbol() + "]";
                     waterCounter++;
-                } else if (stoneCounter < Barrier.randomBarrierMax() && gameboard.getGameboard()[i][j].equals(" [ ]")) {
-                    Barrier stoneBarrier = new BarrierModel("stone", "▲", 20, randomNumberRow()
+                } else if (stoneCounter < barrierController.randomBarrierMax() && gameboard.getGameboard()[i][j].equals(" [ ]")) {
+                    BarrierModel stoneBarrier = new BarrierModel("stone", "▲", 20, randomNumberRow()
                             , randomNumberColumn());
-                    gameboard[stoneBarrier.getPosZeile()][stoneBarrier.getPosSpalte()] = " [" + stoneBarrier.getSymbol() + "]";
+                    gameboard.getGameboard()[stoneBarrier.getPosZeile()][stoneBarrier.getPosSpalte()] = " [" + stoneBarrier.getSymbol() + "]";
                     stoneCounter++;
-                } else if (plantCounter < Barrier.randomBarrierMax() && gameboard.getGameboard()[i][j].equals(" [ ]")) {
-                    Barrier plantBarrier = new BarrierModel("plant", asciiArts.gruen + "♣" + asciiArts.farbReset, 10, randomNumberRow()
+                } else if (plantCounter < barrierController.randomBarrierMax() && gameboard.getGameboard()[i][j].equals(" [ ]")) {
+                    BarrierModel plantBarrier = new BarrierModel("plant", gameView.gruen + "♣" + gameView.farbReset, 10, randomNumberRow()
                             , randomNumberColumn());
-                    gameboard[plantBarrier.getPosZeile()][plantBarrier.getPosSpalte()] = " [" + plantBarrier.getSymbol() + "]";
+                    gameboard.getGameboard()[plantBarrier.getPosZeile()][plantBarrier.getPosSpalte()] = " [" + plantBarrier.getSymbol() + "]";
                     plantCounter++;
                 }
             }
         }
     }
 
-     */
+
 
     //Platziere Spieler und Gegner auf dem Spielfeld
     public void placeRobots(PlayerModel player, KIModel enemy, String[][] gameboard) {
