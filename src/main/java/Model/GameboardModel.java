@@ -2,7 +2,6 @@ package Model;
 
 public class GameboardModel {
 
-    //ASCII_Arts asciiArts = new ASCII_Arts();
     private final int rows;
     private final int cols;
     private final String[][] gameboard;

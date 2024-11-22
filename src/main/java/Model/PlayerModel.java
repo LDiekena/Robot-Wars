@@ -8,7 +8,7 @@ public class PlayerModel {
     private int lossHistory;
     private RobotModel robotModel;
 
-    //Constructor
+    //Konstructor
     public PlayerModel(String name, int posZeile, int posSpalte, int winHistory, int lossHistory, RobotModel robotModel) {
         this.name = name;
         this.posZeile = posZeile;

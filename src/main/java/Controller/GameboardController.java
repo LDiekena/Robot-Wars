@@ -39,6 +39,7 @@ public class GameboardController {
         int stoneCounter = 0;
         int waterCounter = 0;
 
+        //TODO: Trennung der drei wie bei placeRobots, kein überschreiben mehr erlauben
         for (int i = 0; i < gameboard.getGameboard().length; i++) {
             for (int j = 0; j < gameboard.getGameboard()[i].length; j++) {
                 if (waterCounter < barrierController.randomBarrierMax() && gameboard.getGameboard()[i][j].equals(" [ ]")) {

@@ -31,25 +31,35 @@ public class KIController {
     //Methode zum Bewegen des Bots
     public void move(char gegnerZugEingabe, KIModel enemy, boolean spielerZug, boolean gegnerZug, GameboardModel gameboard, GameModel game) {
         gameboard.getGameboard()[enemy.getPosZeile()][enemy.getPosSpalte()] = " [ ]";
+
+        //Bot geht nach oben
         if (gegnerZugEingabe == '8') {
             enemy.setPosZeile(enemy.getPosZeile() - 1);
             gameboard.getGameboard()[enemy.getPosZeile()][enemy.getPosSpalte()] = " [" + enemy.getRobotModel().getSymbol() + "]";
             game.setSpielerZug(true);
             game.setGegnerZug(false);
+
+            //Bot geht nach links
         } else if (gegnerZugEingabe == '4') {
             enemy.setPosSpalte(enemy.getPosSpalte() - 1);
             gameboard.getGameboard()[enemy.getPosZeile()][enemy.getPosSpalte()] = " [" + enemy.getRobotModel().getSymbol() + "]";
             game.setSpielerZug(true);
             game.setGegnerZug(false);
+
+        //Bot bleibt auf aktueller Position
         } else if (gegnerZugEingabe == '5') {
             gameboard.getGameboard()[enemy.getPosZeile()][enemy.getPosSpalte()] = " [" + enemy.getRobotModel().getSymbol() + "]";
             game.setSpielerZug(true);
             game.setGegnerZug(false);
+
+        //Bot geht nach rechts
         } else if (gegnerZugEingabe == '6') {
             enemy.setPosSpalte(enemy.getPosSpalte() + 1);
             gameboard.getGameboard()[enemy.getPosZeile()][enemy.getPosSpalte()] = " [" + enemy.getRobotModel().getSymbol() + "]";
             game.setSpielerZug(true);
             game.setGegnerZug(false);
+
+        //Bot geht nach unten
         } else if (gegnerZugEingabe == '2') {
             enemy.setPosZeile(enemy.getPosZeile() + 1);
             gameboard.getGameboard()[enemy.getPosZeile()][enemy.getPosSpalte()] = " [" + enemy.getRobotModel().getSymbol() + "]";

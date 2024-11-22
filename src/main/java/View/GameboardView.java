@@ -14,6 +14,7 @@ public class GameboardView {
         }
     }
 
+    //Ausgabe Spielfeldvorbereitung
     public void printPrepareMessage() {
         System.out.println("Das Spielfeld wird für das Spiel vorbereitet.\n");
     }

@@ -6,6 +6,16 @@ import View.RobotView;
 
 public class RobotController {
 
+    //Methode zur Abfrage ob Usereingabe gültig ist
+    public boolean isValidAttribute(int attributeChoice) {
+        if (attributeChoice >= 1 && attributeChoice <= 8) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Methode zur Rückgabe eines Attributes anhand der Usereingabe
     public int getAttribute(int input, RobotModel robot) {
         if (input == 1) {
             return robot.getLife();
@@ -91,12 +101,12 @@ public class RobotController {
     }
 
     //Methode zur Skillveränderung
-    public void changeStats(RobotModel robot, RobotView robotView) {
+    public void changeStats(RobotModel robot, RobotView robotView, RobotController robotController) {
         //Eingabe Attributauswahl
         int attributeAuswahl = robotView.askPlayerWhichAttribute();
 
         //Wiederholung der Eingabe Attributauswahl falls diese falsch ist
-        while (attributeAuswahl < 1 || attributeAuswahl > 8) {
+        while (!robotController.isValidAttribute(attributeAuswahl)) {
             attributeAuswahl = robotView.printErrorInputAttributeChoiceAndAskAgain();
         }
 
@@ -111,7 +121,6 @@ public class RobotController {
         //Eingabe Veränderungswert
         int numberToChange = robotView.askNumberForSkillchange();
 
-        //TODO: Robot Übergabe von Game? Player Robot für Skillpoints notwendig
         //Wiederholung der Eingabe je nach Fehlerfall
         while (numberToChange > robot.getSkillpoints() && attributChangeType == '+' || attributChangeType == '-' && getAttribute(attributeAuswahl, robot) == 1 ||
                 attributChangeType == '-' && getAttribute(attributeAuswahl, robot) - numberToChange < 1) {

@@ -26,8 +26,8 @@ public class startGame {
         RobotModel bot1 = new RobotModel("Bot 1", gameView.red + "¥" + gameView.farbReset,
                 0, 7, 2, 2, 3, 1, 1, 3, 1, 35);
         RobotModel robot = new RobotModel(" ", " ", 10, 1, 1, 1, 1, 1, 1, 1, 1, 5);
-        KIModel enemy = new KIModel("Bot 1",5,5 /*gameboardController.randomNumberRow(), gameboardController.randomNumberColumn() */, "easy", bot1);
-        PlayerModel player = new PlayerModel("",5,5 /*gameboardController.randomNumberRow(), gameboardController.randomNumberColumn()*/,0,0, robot);
+        KIModel enemy = new KIModel("Bot 1",gameboardController.randomNumberRow(), gameboardController.randomNumberColumn() , "easy", bot1);
+        PlayerModel player = new PlayerModel("", gameboardController.randomNumberRow(), gameboardController.randomNumberColumn(),0,0, robot);
 
         //Start Intro
         gameView.displayIntroScreen();
@@ -61,10 +61,8 @@ public class startGame {
         robotView.printStartSkillpointDistributionMessage(player);
         robotView.printStats(player.getRobotModel());
 
-        int attributAuswahl = robotView.askPlayerWhichAttribute();
-
         while (player.getRobotModel().getSkillpoints() > 0) {
-            robotController.changeStats(player.getRobotModel(), robotView);
+            robotController.changeStats(player.getRobotModel(), robotView, robotController);
         }
 
         player.getRobotModel().setHealth(player.getRobotModel().getHealth() * player.getRobotModel().getLife());

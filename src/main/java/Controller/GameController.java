@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public class GameController {
 
+    //Abfrage Usereingabe ist gültig
     public boolean isAvatarChoiceValid(int playerInput) {
         if(playerInput == 1 || playerInput == 2) {
             return true;
@@ -21,6 +22,7 @@ public class GameController {
         }
     }
 
+    //Ablauf einer Spielrunde
     public void gameRound(PlayerModel player, KIModel enemy, GameboardModel gameboard, GameModel game, GameboardView gameboardView, GameView gameView, PlayerView playerView, KIView kiView, KIController kiController, PlayerController playerController) {
 
         while (player.getRobotModel().getHealth() >= 0 && enemy.getRobotModel().getHealth() >= 0) {
@@ -56,6 +58,8 @@ public class GameController {
                 if(playerCanAttack(player, enemy)) {
                     int playerAttackChoice = gameView.printEnemyInAttackRangeMessage();
                     if(playerAttackChoice == 1) {
+                        //Angriff beendet Bewegung
+                        playerMoveCounter = 0;
                         playerController.attack(player, enemy);
                         gameView.printPlayerAttackSuccessfullMessage(player, enemy);
                     } else {
@@ -66,15 +70,17 @@ public class GameController {
 
             }
 
-            //Spieler überschreibt den Gegner -> Spielersieg
+            //Spieler hat Gegner besiegt -> Spielersieg
             if (enemy.getRobotModel().getHealth() <= 0) {
                 gameView.printWinner(1);
+                player.setWinHistory(player.getWinHistory() + 1);
             } else {
 
                 //Gegnerzug
                 while (game.getGegnerZug()) {
                     int gegnerMoveCounter = enemy.getRobotModel().getMobility();
 
+                    //Wiederholung Bewegung bis Gegner keine Züge mehr übrig hat
                     while (gegnerMoveCounter >= 1) {
                         gameView.printEnemyTurnMessage(enemy);
                         //java.lang.Thread.sleep(1500); //Künstliche Pause
@@ -83,6 +89,7 @@ public class GameController {
                         game.setGegnerZugEingabe(gegnerZugEingabe);
                         gameView.printEnemyTurnChoice(gegnerZugEingabe);
 
+                        //Abfrage Zug ist gültig
                         if (isMoveValid(enemy.getPosZeile(), enemy.getPosSpalte(), game.getGegnerZugEingabe())) { // && game.testBarrierInWay(posZeile, posSpalte, zugEingabe)
                             kiController.move(gegnerZugEingabe, enemy, game.getSpielerZug(), game.getGegnerZug(), gameboard, game);
                             kiView.printUpdatedEnemyPositionText(enemy);
@@ -101,17 +108,20 @@ public class GameController {
 
                     //Abfrage ob Spieler in Angriffsreichweite ist (nach Beendigung der Bewegung)
                     if(gegnerCanAttack(enemy, player)) {
+                        //Angriff beendet Bewegungsmöglichkeit, TODO: später Auswahl an alternativer Hadnlungen
+                        gegnerMoveCounter = 0;
+
+                        //Angriff
                         gameView.printPlayerInAttackRangeMessage();
                         kiController.attack(enemy, player);
                         gameView.printEnemyAttackSuccessfullMessage(enemy, player);
                     }
-
-                    //TODO: Kampf oder bewegen implementieren
                 }
 
-                //Gegner überschreibt Spieler -> Gegnersieg
+                //Gegner besiegt Spieler -> Gegnersieg
                 if (player.getRobotModel().getHealth() <= 0) {
                     gameView.printWinner(2);
+                    player.setLossHistory(player.getLossHistory() + 1);
                 }
             }
         }
@@ -133,7 +143,7 @@ public class GameController {
     }
 
     /*
-    //TODO: Barrier Abfrage/ Feld muss leer sein, Implementierung "Kampf" gegen Barrier, erst nach Sieg weiter move (5 LP pro Hit)
+    //TODO: Barrier Abfrage/ Feld muss leer sein, Implementierung "Kampf" gegen Barrier, erst nach Sieg weiter move
     //Methode zum Prüfen ob eine Barriere im Weg ist
     public boolean testBarrierInWay(int posZeile, int posSpalte, char zugEingabe) {
         if (zugEingabe == '2' && runGame.board.getGameboard()[posZeile - 1][posSpalte] != " [ ]") {

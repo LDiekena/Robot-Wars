@@ -14,7 +14,6 @@ public class GameView {
     public final String gruen = "\033[0;32m";
     public final String blau = "\033[0;34m";
 
-    //Part Spielintro
     //Ausgabe Introscreen
     public void displayIntroScreen() {
         System.out.println("      Herzlich willkommen bei Robot Wars!");
@@ -98,6 +97,7 @@ public class GameView {
         return sc.nextInt();
     }
 
+    //Ausgabe Fehler bei der Avatarwahl
     public void printErrorSetAvater() {
         System.out.println("Fehler beim zuweisen des Avatars.");
     }
@@ -108,12 +108,12 @@ public class GameView {
                 player.getRobotModel().getSymbol() + " repräsentiert. Dein Gegner wird mit dem Symbol " + enemy.getRobotModel().getSymbol() + " angezeigt\n");
     }
 
+    //Ausgabe Spielstart
     public void printStartMessage() {
         System.out.println("Viel Spaß beim Spielen!");
     }
 
-    //Part Spielablauf
-    //Ausgabe Player ist dran
+    //Ausgabe Player ist dran, Farbe je nach Avatarwahl
     public void printPlayerTurn(int i) {
         if(i == 1) {
             System.out.println(cyan + "\n Spielerzug \n" + farbReset);
@@ -127,6 +127,7 @@ public class GameView {
         System.out.println(red + "\n Gegnerzug \n" + farbReset);
     }
 
+    //Ausgabe Richtungswahl des Spielers
     public char printPlayerTurnMessageAndAskInput(PlayerModel player) {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n" + player.getName() + " ist dran. Um dich zu bewegen nutze die Eingaben 6 = rechts, 4 = links, 8 = hoch und 2 = unten" +
@@ -134,10 +135,12 @@ public class GameView {
         return sc.next().charAt(0);
     }
 
+    //Ausgabe Gegner wählt Zug
     public void printEnemyTurnMessage(KIModel gegner) {
         System.out.println("\nDer Gegner ist am Zug und macht seine Eingabe...");
     }
 
+    //Ausgabe Richtungsauswahl Gegner
     public void printEnemyTurnChoice(int enemyInput) {
         System.out.println("Der Gegner hat die Eingabe " + enemyInput + " gewählt");
     }
@@ -152,35 +155,40 @@ public class GameView {
         return sc.nextInt();
     }
 
+    //Ausgabe Fehler, Spieler kann nicht in die ausgewählte Richtung
     public void printErrorPlayerMoveMessage() {
         System.out.println("Dieser Zug würde aus dem Spielfeld führen oder eine Barriere ist im Weg, bitte versuche es erneut. ");
     }
 
+    //Ausgabe Fehler, Bot kann nicht in die ausgewählte Richtung
     public void printErrorEnemyMoveMessage() {
         System.out.println("Die Eingabe des Gegners würde aus dem Spielfeld führen oder eine Barriere ist im Weg, der Gegner versucht es erneut.");
     }
 
+    //Ausgabe Spieler kann Gegner angreifen
     public int printEnemyInAttackRangeMessage() {
         System.out.println("Der Gegner befindet sich in Angriffsreichweite, möchtest du deinen Gegner angreifen (1) oder einen Schild aktivieren (2)? Bitte mache deine Eingabe:");
         Scanner sc = new Scanner(System.in);
         return sc.nextInt();
     }
 
+    //Ausgabe Spieler hat Attacke ausgeführt
     public void printPlayerAttackSuccessfullMessage(PlayerModel player, KIModel enemy) {
         System.out.println("Du hast " + player.getRobotModel().getDamage() + "Schaden an deinem Gegner gemacht. Der Gegner hat nur noch " + enemy.getRobotModel().getHealth() +
                 "Leben übrig.");
     }
 
+    //Ausgabe Bot hat Attacke ausgeführt
     public void printEnemyAttackSuccessfullMessage(KIModel enemy, PlayerModel player) {
         System.out.println("Der Gegner hat " + enemy.getRobotModel().getDamage() + "Schaden an dem Spieler verursacht. Der Spieler hat nur noch " + player.getRobotModel().getHealth() +
                 "Leben übrig.");
     }
 
+    //Ausgabe Bot kann Spieler angreifen
     public void printPlayerInAttackRangeMessage() {//TODO: Für später übergabe mit difficulty und dementsprechend Handlungswahl
         System.out.println("Der Spieler befindet sich in Angriffsreichweite des Gegners. Der Gegner greift an.");
     }
 
-    //Part Spielende
     //Ausgabe Sieger
     public void printWinner (int i) {
         if(i == 1) {
