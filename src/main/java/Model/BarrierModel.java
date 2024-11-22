@@ -1,7 +1,8 @@
+package Model;
+
 import java.util.Random;
 
-public class Barrier {
-
+public class BarrierModel {
     private final String type;
     private final String symbol;
     private int lifePoints;
@@ -9,7 +10,7 @@ public class Barrier {
     private int posSpalte;
 
     //Konstruktor
-    public Barrier(String type, String symbol, int lifePoints, int posZeile, int posSpalte) {
+    public BarrierModel(String type, String symbol, int lifePoints, int posZeile, int posSpalte) {
         this.type = type;
         this.symbol = symbol;
         this.lifePoints = lifePoints;
@@ -56,5 +57,3 @@ public class Barrier {
         return r.nextInt(20);
     }
 }
-
-
