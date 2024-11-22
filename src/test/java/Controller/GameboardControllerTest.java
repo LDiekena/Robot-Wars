@@ -69,7 +69,6 @@ public class GameboardControllerTest {
 
     }
 
-    //TODO: FIXEN!
     @Test
     void testPlaceRobotsWithSameStartPositions() {
         //Test bei gleichen Startpositionen
